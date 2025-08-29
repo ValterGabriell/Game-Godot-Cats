@@ -9,11 +9,13 @@ public partial class CardManager : Node
     private Vector2? WorkScreenSize = null;
     private CardStateEnum WorkCardState = CardStateEnum.IDLE;
     private bool IsHooveringCard = false;
+    PlayerHand playerHand;
 
     /*MAIN METHODS*/
     public override void _Ready()
     {
         WorkScreenSize = GetViewport().GetVisibleRect().Size;
+        playerHand = GetParent().GetNode<PlayerHand>("PlayerHand");
     }
 
     public override void _Input(InputEvent @event)
@@ -97,8 +99,7 @@ public partial class CardManager : Node
             return;
 
         (CardSlot WorkCardSlot, _) = GetSlotAtMousePosition(ShouldSlotAppear: true);
-        GD.Print(WorkCardSlot.CardOnSlot);
-        GD.Print(WorkCurrentDraggedCard);
+
         if (WorkCardSlot == null || WorkCardSlot.IsOccupied && WorkCardSlot.CardOnSlot == WorkCurrentDraggedCard)
             WorkCardSlot.VacateSlot();
     }
@@ -108,20 +109,36 @@ public partial class CardManager : Node
         if (WorkCurrentDraggedCard is null) return;
         (CardSlot WorkCardSlot, Vector2? WorkSlotPosition) = GetSlotAtMousePosition(ShouldSlotAppear: false);
 
-        if (WorkCardSlot == null || WorkSlotPosition == null || WorkCardSlot.IsOccupied)
+        if (IsSlotOcupied(WorkCardSlot, WorkSlotPosition))
         {
-            WorkCurrentDraggedCard = null;
-            return;
+            playerHand.AddCardToHand(WorkCurrentDraggedCard);
+            ResetDraggedCardReference();
         }
 
+        if (IsInvalidSlotForCard(WorkCardSlot, WorkSlotPosition))
+            ResetDraggedCardReference();
 
-        GD.Print("Clear Dragged Card Reference");
         WorkCardSlot.OccupySlot(WorkCurrentDraggedCard);
         WorkCurrentDraggedCard.Position = WorkSlotPosition.Value;
         /*WorkCurrentDraggedCard.GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Disabled = true;*/ // Desativa a colisão da carta para evitar múltiplas detecções
         WorkCurrentDraggedCard = null;
         WorkCardState = CardStateEnum.IDLE;
-        GD.Print("Dragged card cleared, slot occupied:", WorkCardSlot.IsOccupied);
+    }
+
+    private void ResetDraggedCardReference()
+    {
+        WorkCurrentDraggedCard = null;
+        return;
+    }
+
+    private static bool IsInvalidSlotForCard(CardSlot WorkCardSlot, Vector2? WorkSlotPosition)
+    {
+        return WorkCardSlot == null || WorkSlotPosition == null;
+    }
+
+    private static bool IsSlotOcupied(CardSlot WorkCardSlot, Vector2? WorkSlotPosition)
+    {
+        return WorkCardSlot == null || WorkSlotPosition == null && WorkCardSlot.IsOccupied;
     }
 
     private (CardSlot, Vector2?) GetSlotAtMousePosition(bool ShouldSlotAppear)

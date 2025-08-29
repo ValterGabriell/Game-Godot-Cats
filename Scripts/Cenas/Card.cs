@@ -8,10 +8,23 @@ public partial class Card : Node2D
     [Signal]
     public delegate void CardHoveredOffSignalEventHandler(Node2D CurrentCard);
 
+    private Vector2 OriginalPosition { get; set; } = Vector2.Zero;
+
     public override void _Ready()
     {
         ConnectCardSignals();
     }
+
+    public void UpdateOriginalPosition(Vector2 newPosition)
+    {
+        OriginalPosition = newPosition;
+    }
+
+    public Vector2 GetOriginalPosition()
+    {
+        return OriginalPosition;
+    }
+
 
 
 

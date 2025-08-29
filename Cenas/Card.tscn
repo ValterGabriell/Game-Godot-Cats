@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://ppj2excv74yo"]
 
 [ext_resource type="Script" uid="uid://qej4r0rqg5eu" path="res://Scripts/Cenas/Card.cs" id="1_33wa3"]
-[ext_resource type="Texture2D" uid="uid://4u64q6pagg4c" path="res://Assets/3D Card Kit - Fantasy [Standard]/Renders/0_CardBack.png" id="1_dd2wi"]
+[ext_resource type="Texture2D" uid="uid://0qmgvjcu8s35" path="res://Assets/Amigos/Felipe.png" id="2_33wa3"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_hael8"]
 size = Vector2(271, 402)
@@ -10,9 +10,9 @@ size = Vector2(271, 402)
 script = ExtResource("1_33wa3")
 
 [node name="CardImg" type="Sprite2D" parent="."]
-position = Vector2(-4.76837e-07, 0)
-scale = Vector2(0.15, 0.155)
-texture = ExtResource("1_dd2wi")
+position = Vector2(-0.749995, 0.593752)
+scale = Vector2(0.099537, 0.116157)
+texture = ExtResource("2_33wa3")
 
 [node name="Area2D" type="Area2D" parent="."]
 
