@@ -3,36 +3,51 @@ using System.Collections.Generic;
 
 public partial class PlayerHand : Node
 {
-    private const int CurrentPlayerHand = 2;
+    private const int MaxPlayerHand = 2;
     private const string CardPath = "res://Cenas/Card.tscn";
     private List<Node2D> PlayerCards = [];
     private float CenterScreenX;
     private const float CARD_WIDTH = 100;
-    private const float HAND_Y_POSITION = 600;
+    private const float HAND_Y_POSITION = 550;
+
+    [Signal]
+    public delegate void PlayerHandFullOfCardEventHandler(Node2D CurrentCard);
 
     public override void _Ready()
     {
-        CenterScreenX = GetViewport().GetVisibleRect().Size.X / 2;
-        CardManager cardManager = GetParent().GetNode<CardManager>("CardManager");
-        PackedScene cardScene = ResourceLoader.Load<PackedScene>(CardPath);
-        for (int i = 0; i < CurrentPlayerHand; i++)
+        var deck = GetParent().GetNode<Deck>("Deck");
+        this.PlayerHandFullOfCard += Deck.OnPlayerHandFullOfCard;
+    }
+
+    public void GetCardFromDeck()
+    {
+        if (PlayerCards.Count < MaxPlayerHand)
         {
+            CenterScreenX = GetViewport().GetVisibleRect().Size.X / 2;
+            CardManager cardManager = GetParent().GetNode<CardManager>("CardManager");
+            PackedScene cardScene = ResourceLoader.Load<PackedScene>(CardPath);
+
             Node2D cardInstance = cardScene.Instantiate<Node2D>();
             cardManager.AddChild(cardInstance);
+
+            int i = PlayerCards.Count;
             cardInstance.Name = $"Card{i + 1}";
             AddCardToHand(cardInstance);
+            return;
         }
+        EmitSignal(SignalName.PlayerHandFullOfCard, this);
+
     }
 
     public void AddCardToHand(Node2D InCard)
     {
-        if (!IsCardInHand(InCard))
+        if (!IsCurrentCardInHand(InCard))
         {
             PlayerCards.Add(InCard);
             UpdateHandPosition();
         }
 
-        if (IsCardInHand(InCard))
+        if (IsCurrentCardInHand(InCard))
         {
             var card = (Card)InCard;
             AnimateCardToPosition(InCard, card.GetOriginalPosition());
@@ -40,7 +55,7 @@ public partial class PlayerHand : Node
 
     }
 
-    private bool IsCardInHand(Node2D InCard)
+    private bool IsCurrentCardInHand(Node2D InCard)
     {
         return PlayerCards.Contains(InCard);
     }

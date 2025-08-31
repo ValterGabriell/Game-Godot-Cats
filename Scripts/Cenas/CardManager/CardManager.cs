@@ -21,10 +21,24 @@ public partial class CardManager : Node
     public override void _Input(InputEvent @event)
     {
         if (IsLeftMouseButtonPressed(@event))
+        {
             UpdateDraggedCardReference();
+            Node2D deck = DetectDeck();
+            if (deck != null)
+            {
+                Deck deckScript = deck as Deck;
+                Deck.DrawCard(playerHand);
+            }
+
+        }
 
         if (IsLeftMouseButtonReleased(@event))
+        {
+            if (WorkCurrentDraggedCard == null)
+                return;
             ClearDraggedCardReference();
+        }
+
     }
     /*MAIN METHODS*/
 
@@ -92,6 +106,7 @@ public partial class CardManager : Node
     {
         Node2D WorkCard = DetectCardAtMousePosition();
 
+
         if (WorkCard != null) WorkCurrentDraggedCard = WorkCard;
         WorkCardState = CardStateEnum.DRAGGED;
 
@@ -100,7 +115,8 @@ public partial class CardManager : Node
 
         (CardSlot WorkCardSlot, _) = GetSlotAtMousePosition(ShouldSlotAppear: true);
 
-        if (WorkCardSlot == null || WorkCardSlot.IsOccupied && WorkCardSlot.CardOnSlot == WorkCurrentDraggedCard)
+        if (WorkCardSlot != null
+            && WorkCardSlot.IsOccupied && WorkCardSlot.CardOnSlot == WorkCurrentDraggedCard)
             WorkCardSlot.VacateSlot();
     }
 
@@ -118,11 +134,15 @@ public partial class CardManager : Node
         if (IsInvalidSlotForCard(WorkCardSlot, WorkSlotPosition))
             ResetDraggedCardReference();
 
-        WorkCardSlot.OccupySlot(WorkCurrentDraggedCard);
-        WorkCurrentDraggedCard.Position = WorkSlotPosition.Value;
-        /*WorkCurrentDraggedCard.GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Disabled = true;*/ // Desativa a colisão da carta para evitar múltiplas detecções
-        WorkCurrentDraggedCard = null;
-        WorkCardState = CardStateEnum.IDLE;
+        if (WorkCurrentDraggedCard != null)
+        {
+            WorkCardSlot.OccupySlot(WorkCurrentDraggedCard);
+            WorkCurrentDraggedCard.Position = WorkSlotPosition.Value;
+            /*WorkCurrentDraggedCard.GetNode<CollisionShape2D>("Area2D/CollisionShape2D").Disabled = true;*/ // Desativa a colisão da carta para evitar múltiplas detecções
+            WorkCurrentDraggedCard = null;
+            WorkCardState = CardStateEnum.IDLE;
+        }
+
     }
 
     private void ResetDraggedCardReference()
@@ -156,6 +176,21 @@ public partial class CardManager : Node
 
         Dictionary hitInfo = result[0];
         GodotObject collider = hitInfo["collider"].AsGodotObject();
+        if (collider is Node2D colliderNode)
+            return (Node2D)colliderNode.GetParent();
+        return null;
+    }
+
+    private Node2D DetectDeck()
+    {
+        Array<Dictionary> result = DetectNodeAtMousePoint(Constantes.COLLISION_MASK_DECK);
+
+        if (result.Count == 0) return null;
+
+        Dictionary hitInfo = result[0];
+
+        GodotObject collider = hitInfo["collider"].AsGodotObject();
+
         if (collider is Node2D colliderNode)
             return (Node2D)colliderNode.GetParent();
         return null;
