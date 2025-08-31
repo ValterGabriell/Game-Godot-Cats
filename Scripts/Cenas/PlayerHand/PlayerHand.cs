@@ -11,12 +11,12 @@ public partial class PlayerHand : Node
     private const float HAND_Y_POSITION = 550;
 
     [Signal]
-    public delegate void PlayerHandFullOfCardEventHandler(Node2D CurrentCard);
+    public delegate void PlayerHandFullOfCardEventHandler(PlayerHand CurrentCard);
 
     public override void _Ready()
     {
         var deck = GetParent().GetNode<Deck>("Deck");
-        this.PlayerHandFullOfCard += Deck.OnPlayerHandFullOfCard;
+        this.PlayerHandFullOfCard += deck.OnPlayerHandFullOfCard;
     }
 
     public void GetCardFromDeck()
@@ -36,7 +36,6 @@ public partial class PlayerHand : Node
             return;
         }
         EmitSignal(SignalName.PlayerHandFullOfCard, this);
-
     }
 
     public void AddCardToHand(Node2D InCard)

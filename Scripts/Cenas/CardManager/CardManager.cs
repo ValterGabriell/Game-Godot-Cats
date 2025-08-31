@@ -22,14 +22,10 @@ public partial class CardManager : Node
     {
         if (IsLeftMouseButtonPressed(@event))
         {
-            UpdateDraggedCardReference();
+            
             Node2D deck = DetectDeck();
-            if (deck != null)
-            {
-                Deck deckScript = deck as Deck;
-                Deck.DrawCard(playerHand);
-            }
-
+            if (deck == null) UpdateDraggedCardReference();
+            else HandleDeckClick();
         }
 
         if (IsLeftMouseButtonReleased(@event))
@@ -40,6 +36,9 @@ public partial class CardManager : Node
         }
 
     }
+
+
+
     /*MAIN METHODS*/
 
 
@@ -78,7 +77,10 @@ public partial class CardManager : Node
     }
 
     /*PRIVATE*/
-
+    private void HandleDeckClick()
+    {
+        playerHand.GetCardFromDeck();
+    }
     private Vector2 ClampMovementOfCard(Vector2 InGlobalMousePosition)
     {
         return new Vector2(
@@ -105,7 +107,6 @@ public partial class CardManager : Node
     private void UpdateDraggedCardReference()
     {
         Node2D WorkCard = DetectCardAtMousePosition();
-
 
         if (WorkCard != null) WorkCurrentDraggedCard = WorkCard;
         WorkCardState = CardStateEnum.DRAGGED;

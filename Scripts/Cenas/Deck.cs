@@ -2,16 +2,18 @@ using Godot;
 
 public partial class Deck : Node2D
 {
-    private int NumberCardOnPlayerDeck = 0;
+	private int NumberCardOnPlayerDeck = 0;
 
-    public static void DrawCard(PlayerHand playerHand)
-    {
-        playerHand.GetCardFromDeck();
-    }
+	public static void DrawCard(PlayerHand playerHand)
+	{
+		GD.Print("Comprar carta");
+		GD.Print(playerHand);
+		playerHand.GetCardFromDeck();
+	}
 
-    public static void OnPlayerHandFullOfCard(Node2D CurrentCard)
-    {
-        GD.Print("Mão cheia");
-    }
+	public void OnPlayerHandFullOfCard(PlayerHand CurrentCard)
+	{
+		GD.Print("Mão cheia");
+	}
 
 }

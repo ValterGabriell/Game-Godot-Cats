@@ -2,7 +2,7 @@
   "profiles": {
     "Perfil 1": {
       "commandName": "Executable",
-      "executablePath": "Z:\\Downloads\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64.exe",
+      "executablePath": "C:\\Users\\vgabr\\Downloads\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64\\Godot_v4.4.1-stable_mono_win64.exe",
       "workingDirectory": ".",
       "nativeDebugging": true
     }
