@@ -8,16 +8,22 @@ namespace NovoProjetodeJogo.Scripts
         Button btnServer;
         Button btnClient;
         int currentPlayMoney = 2;
+        MultiplayerApi multiplayerApi;
+        [Export]
+        public PackedScene PackedScene { get; set; }
+        [Export]
+        public NodePath SpawnPath { get; set; }
 
         public override void _Ready()
         {
+            multiplayerApi = Multiplayer;
             textMoneyCurrentPlayerLabel = GetParent().GetNode<RichTextLabel>("UIManager/CountMoney");
             btnServer = GetParent().GetNode<Button>("UIManager/BtnServer");
             btnClient = GetParent().GetNode<Button>("UIManager/BtnConnect");
 
             textMoneyCurrentPlayerLabel.Text = "Money: " + currentPlayMoney.ToString();
-            btnServer.Pressed += OnBntServerPressed;
-            btnClient.Pressed += OnBntClientPressed;
+            //btnServer.Pressed += OnBntServerPressed;
+            //btnClient.Pressed += OnBntClientPressed;
         }
         public void IncreaseCurrentPlayMoney(int amount)
         {
@@ -34,13 +40,13 @@ namespace NovoProjetodeJogo.Scripts
         public void OnBntClientPressed()
         {
             var ghLevelNetwork = new HighLevelNetwork();
-            ghLevelNetwork.StartClient();
+            ghLevelNetwork.StartClient(multiplayerApi, PackedScene, SpawnPath);
         }
 
         public void OnBntServerPressed()
         {
             var ghLevelNetwork = new HighLevelNetwork();
-            ghLevelNetwork.StartServer();
+            ghLevelNetwork.StartServer(multiplayerApi, PackedScene);
         }
     }
 }

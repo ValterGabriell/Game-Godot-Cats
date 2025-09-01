@@ -11,6 +11,7 @@ properties/0/replication_mode = 1
 size = Vector2(38.6512, 54.0001)
 
 [node name="Player" type="Node2D"]
+position = Vector2(15, 27)
 
 [node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
 replication_config = SubResource("SceneReplicationConfig_q5y7g")
