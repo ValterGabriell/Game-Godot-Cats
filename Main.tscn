@@ -1,11 +1,10 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1sjqekojkcba"]
+[gd_scene load_steps=6 format=3 uid="uid://d1sjqekojkcba"]
 
 [ext_resource type="Script" uid="uid://cp0riyrlv5vus" path="res://Scripts/Cenas/CardManager/CardManager.cs" id="1_uu6xs"]
 [ext_resource type="Script" uid="uid://dcpmmn1ogps8q" path="res://Scripts/Cenas/PlayerHand/PlayerHand.cs" id="3_r0du0"]
 [ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/Deck.tscn" id="4_3dxm6"]
-[ext_resource type="Script" uid="uid://bkou2ra682gql" path="res://Scripts/Geral/UIHandler.cs" id="5_3dxm6"]
+[ext_resource type="Script" uid="uid://c3j7tybh8uehc" path="res://Scripts/Geral/UiMainGameManager.cs" id="5_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://db4s07ndy3oj5" path="res://Cenas/CardSlot.tscn" id="5_fos0i"]
-[ext_resource type="PackedScene" uid="uid://bgl70rsvsm8ge" path="res://Cenas/Player.tscn" id="8_trn2v"]
 
 [node name="Main" type="Node2D"]
 
@@ -26,36 +25,5 @@ position = Vector2(546, 336)
 
 [node name="InputManager" type="Node2D" parent="."]
 
-[node name="UIManager" type="Node2D" parent="."]
+[node name="UIMainGameManager" type="Node2D" parent="."]
 script = ExtResource("5_3dxm6")
-PackedScene = ExtResource("8_trn2v")
-SpawnPath = NodePath("..")
-
-[node name="CountMoney" type="RichTextLabel" parent="UIManager"]
-offset_left = 30.0
-offset_top = 27.0
-offset_right = 154.0
-offset_bottom = 67.0
-text = "oiii meu texto1"
-
-[node name="BtnConnect" type="Button" parent="UIManager"]
-offset_left = 34.0
-offset_top = 110.0
-offset_right = 124.0
-offset_bottom = 148.0
-text = "Conectar"
-
-[node name="BtnServer" type="Button" parent="UIManager"]
-offset_left = 38.0
-offset_top = 67.0
-offset_right = 124.0
-offset_bottom = 98.0
-text = "SERVIDOR
-"
-
-[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="UIManager"]
-_spawnable_scenes = PackedStringArray("uid://bgl70rsvsm8ge")
-spawn_path = NodePath("..")
-
-[connection signal="pressed" from="UIManager/BtnConnect" to="UIManager" method="OnBntClientPressed"]
-[connection signal="pressed" from="UIManager/BtnServer" to="UIManager" method="OnBntServerPressed"]

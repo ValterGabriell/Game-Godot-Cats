@@ -1,0 +1,40 @@
+[gd_scene load_steps=4 format=3 uid="uid://buq4so3g2bvkd"]
+
+[ext_resource type="Script" uid="uid://bkou2ra682gql" path="res://Scripts/Geral/UIHandler.cs" id="1_ylpcl"]
+[ext_resource type="PackedScene" uid="uid://bgl70rsvsm8ge" path="res://Cenas/Player.tscn" id="2_cx167"]
+[ext_resource type="PackedScene" uid="uid://cj8hm1nolpxyj" path="res://Cenas/InputName.tscn" id="3_dolsu"]
+
+[node name="Menu" type="Node2D"]
+
+[node name="UIManager" type="Node2D" parent="." node_paths=PackedStringArray("NicknameTextEdit")]
+script = ExtResource("1_ylpcl")
+PackedScene = ExtResource("2_cx167")
+NicknameTextEdit = NodePath("InputName/TextEdit")
+
+[node name="InputName" parent="UIManager" instance=ExtResource("3_dolsu")]
+position = Vector2(534, 296)
+
+[node name="BtnHost" type="Button" parent="UIManager"]
+offset_left = 495.0
+offset_top = 345.0
+offset_right = 581.0
+offset_bottom = 376.0
+text = "Host
+"
+
+[node name="BtnJoin" type="Button" parent="UIManager"]
+offset_left = 497.0
+offset_top = 385.0
+offset_right = 583.0
+offset_bottom = 416.0
+text = "Entrar
+"
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="UIManager"]
+_spawnable_scenes = PackedStringArray("uid://bgl70rsvsm8ge")
+spawn_path = NodePath("..")
+
+[connection signal="pressed" from="UIManager/BtnHost" to="UIManager" method="OnBntServerPressed"]
+[connection signal="pressed" from="UIManager/BtnJoin" to="UIManager" method="OnBntServerPressed"]
+
+[editable path="UIManager/InputName"]
