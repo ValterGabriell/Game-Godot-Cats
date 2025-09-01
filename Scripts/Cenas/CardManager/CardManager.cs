@@ -5,6 +5,7 @@ using NovoProjetodeJogo.Scripts.Geral;
 
 public partial class CardManager : Node
 {
+ 
     private Node2D WorkCurrentDraggedCard = null;
     private Vector2? WorkScreenSize = null;
     private CardStateEnum WorkCardState = CardStateEnum.IDLE;

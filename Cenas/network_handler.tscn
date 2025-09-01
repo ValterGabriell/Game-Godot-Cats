@@ -1,0 +1,12 @@
+[gd_scene load_steps=3 format=3 uid="uid://cdisaeo5y7ojg"]
+
+[ext_resource type="Script" uid="uid://burot2mcacksh" path="res://MultiplayerSpawner.cs" id="1_yute0"]
+[ext_resource type="PackedScene" uid="uid://bgl70rsvsm8ge" path="res://Cenas/Player.tscn" id="2_jccka"]
+
+[node name="NetworkHandler" type="Node2D"]
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="."]
+_spawnable_scenes = PackedStringArray("uid://cdisaeo5y7ojg")
+spawn_path = NodePath("..")
+script = ExtResource("1_yute0")
+PackedScene = ExtResource("2_jccka")

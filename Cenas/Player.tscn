@@ -1,0 +1,28 @@
+[gd_scene load_steps=4 format=3 uid="uid://bgl70rsvsm8ge"]
+
+[ext_resource type="Texture2D" uid="uid://c8p6isuxm65xj" path="res://Assets/3D Card Kit - Fantasy [Standard]/Renders/3_Monk.png" id="1_7k6h6"]
+
+[sub_resource type="SceneReplicationConfig" id="SceneReplicationConfig_q5y7g"]
+properties/0/path = NodePath(".:position")
+properties/0/spawn = true
+properties/0/replication_mode = 1
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_ybxfy"]
+size = Vector2(38.6512, 54.0001)
+
+[node name="Player" type="Node2D"]
+
+[node name="MultiplayerSynchronizer" type="MultiplayerSynchronizer" parent="."]
+replication_config = SubResource("SceneReplicationConfig_q5y7g")
+
+[node name="Area2D" type="Area2D" parent="."]
+
+[node name="Sprite2D" type="Sprite2D" parent="Area2D"]
+position = Vector2(2, -3)
+scale = Vector2(0.0286667, 0.0342857)
+texture = ExtResource("1_7k6h6")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D/Sprite2D"]
+position = Vector2(-7.62939e-06, -29.1667)
+scale = Vector2(14.1509, 11.6667)
+shape = SubResource("RectangleShape2D_ybxfy")
