@@ -1,17 +1,13 @@
-[gd_scene load_steps=8 format=3 uid="uid://d1sjqekojkcba"]
+[gd_scene load_steps=7 format=3 uid="uid://d1sjqekojkcba"]
 
 [ext_resource type="Script" uid="uid://cp0riyrlv5vus" path="res://Scripts/Cenas/CardManager/CardManager.cs" id="1_uu6xs"]
 [ext_resource type="Script" uid="uid://dcpmmn1ogps8q" path="res://Scripts/Cenas/PlayerHand/PlayerHand.cs" id="3_r0du0"]
-[ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/deck.tscn" id="4_3dxm6"]
+[ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/Deck.tscn" id="4_3dxm6"]
 [ext_resource type="Script" uid="uid://bkou2ra682gql" path="res://Scripts/Geral/UIHandler.cs" id="5_3dxm6"]
 [ext_resource type="PackedScene" uid="uid://db4s07ndy3oj5" path="res://Cenas/CardSlot.tscn" id="5_fos0i"]
-[ext_resource type="PackedScene" uid="uid://cdisaeo5y7ojg" path="res://Cenas/network_handler.tscn" id="7_lgr22"]
 [ext_resource type="PackedScene" uid="uid://bgl70rsvsm8ge" path="res://Cenas/Player.tscn" id="8_trn2v"]
 
 [node name="Main" type="Node2D"]
-
-[node name="NetworkHandler" parent="." instance=ExtResource("7_lgr22")]
-position = Vector2(0.015, 0)
 
 [node name="CardManager" type="Node2D" parent="."]
 script = ExtResource("1_uu6xs")
@@ -56,6 +52,10 @@ offset_right = 124.0
 offset_bottom = 98.0
 text = "SERVIDOR
 "
+
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="UIManager"]
+_spawnable_scenes = PackedStringArray("uid://bgl70rsvsm8ge")
+spawn_path = NodePath("..")
 
 [connection signal="pressed" from="UIManager/BtnConnect" to="UIManager" method="OnBntClientPressed"]
 [connection signal="pressed" from="UIManager/BtnServer" to="UIManager" method="OnBntServerPressed"]

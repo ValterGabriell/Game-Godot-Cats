@@ -9,10 +9,14 @@ namespace NovoProjetodeJogo.Scripts
         Button btnClient;
         int currentPlayMoney = 2;
         MultiplayerApi multiplayerApi;
+
         [Export]
         public PackedScene PackedScene { get; set; }
-        [Export]
-        public NodePath SpawnPath { get; set; }
+
+
+        private const string SERVER_IP = "127.0.0.1";
+        private const int SERVER_PORT = 7777;
+        private ENetMultiplayerPeer peer;
 
         public override void _Ready()
         {
@@ -20,10 +24,7 @@ namespace NovoProjetodeJogo.Scripts
             textMoneyCurrentPlayerLabel = GetParent().GetNode<RichTextLabel>("UIManager/CountMoney");
             btnServer = GetParent().GetNode<Button>("UIManager/BtnServer");
             btnClient = GetParent().GetNode<Button>("UIManager/BtnConnect");
-
             textMoneyCurrentPlayerLabel.Text = "Money: " + currentPlayMoney.ToString();
-            //btnServer.Pressed += OnBntServerPressed;
-            //btnClient.Pressed += OnBntClientPressed;
         }
         public void IncreaseCurrentPlayMoney(int amount)
         {
@@ -39,14 +40,25 @@ namespace NovoProjetodeJogo.Scripts
 
         public void OnBntClientPressed()
         {
-            var ghLevelNetwork = new HighLevelNetwork();
-            ghLevelNetwork.StartClient(multiplayerApi, PackedScene, SpawnPath);
+            peer = new ENetMultiplayerPeer();
+            peer.CreateClient(SERVER_IP, SERVER_PORT);
+            multiplayerApi.MultiplayerPeer = peer;
+            if (!multiplayerApi.IsServer()) return;
         }
 
         public void OnBntServerPressed()
         {
-            var ghLevelNetwork = new HighLevelNetwork();
-            ghLevelNetwork.StartServer(multiplayerApi, PackedScene);
+            peer = new ENetMultiplayerPeer();
+            peer.CreateServer(SERVER_PORT);
+            multiplayerApi.MultiplayerPeer = peer;
+            multiplayerApi.PeerConnected += AddPlayer;
+        }
+
+        public void AddPlayer(long id)
+        {
+            var player = PackedScene.Instantiate();
+            player.Name = id.ToString();
+            CallDeferred("add_child", player);
         }
     }
 }
