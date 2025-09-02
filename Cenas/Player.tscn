@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://bgl70rsvsm8ge"]
+[gd_scene load_steps=5 format=3 uid="uid://8qcj2jh64eui"]
 
 [ext_resource type="Texture2D" uid="uid://c8p6isuxm65xj" path="res://Assets/3D Card Kit - Fantasy [Standard]/Renders/3_Monk.png" id="1_7k6h6"]
 [ext_resource type="Script" uid="uid://bwrpthcl2jbgv" path="res://Scripts/Cenas/Player.cs" id="1_ybxfy"]

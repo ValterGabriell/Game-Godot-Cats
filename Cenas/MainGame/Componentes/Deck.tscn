@@ -1,16 +1,16 @@
 [gd_scene load_steps=4 format=3 uid="uid://moss4flv1dk6"]
 
-[ext_resource type="Script" uid="uid://ds8sd2bj52872" path="res://Scripts/Cenas/Deck.cs" id="1_edbib"]
-[ext_resource type="Texture2D" uid="uid://dte3ahcuiqg1q" path="res://Assets/Deck.png" id="2_wjtmc"]
+[ext_resource type="Script" uid="uid://ds8sd2bj52872" path="res://Scripts/Cenas/Deck.cs" id="1_qf54m"]
+[ext_resource type="Texture2D" uid="uid://dte3ahcuiqg1q" path="res://Assets/Deck.png" id="2_n5jya"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_lgr22"]
 size = Vector2(176, 259)
 
 [node name="Deck" type="Node2D"]
-script = ExtResource("1_edbib")
+script = ExtResource("1_qf54m")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-texture = ExtResource("2_wjtmc")
+texture = ExtResource("2_n5jya")
 
 [node name="Area2D" type="Area2D" parent="."]
 collision_layer = 4

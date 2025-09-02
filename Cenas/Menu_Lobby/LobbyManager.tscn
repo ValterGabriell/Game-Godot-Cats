@@ -1,0 +1,40 @@
+[gd_scene load_steps=2 format=3 uid="uid://cucat22fb8xxs"]
+
+[ext_resource type="Script" uid="uid://thgbt8dypl2d" path="res://Cenas/Menu_Lobby/LobbyManager.cs" id="1_rl6de"]
+
+[node name="LobbyManager" type="Node2D"]
+script = ExtResource("1_rl6de")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PlayersList" type="ItemList" parent="CanvasLayer"]
+offset_right = 175.0
+offset_bottom = 264.0
+
+[node name="TextInputNickname" type="TextEdit" parent="CanvasLayer"]
+offset_left = 341.0
+offset_top = 50.0
+offset_right = 511.0
+offset_bottom = 94.0
+
+[node name="BtnHostearPartida" type="Button" parent="CanvasLayer"]
+offset_left = 395.0
+offset_top = 110.0
+offset_right = 439.0
+offset_bottom = 141.0
+text = "Host
+"
+
+[node name="BtnEntrarNaPartida" type="Button" parent="CanvasLayer"]
+offset_left = 379.0
+offset_top = 150.0
+offset_right = 457.0
+offset_bottom = 181.0
+text = "Conectar"
+
+[node name="BtnIniciarPartida" type="Button" parent="CanvasLayer"]
+offset_left = 379.0
+offset_top = 192.0
+offset_right = 457.0
+offset_bottom = 223.0
+text = "Começar"

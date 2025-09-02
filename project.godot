@@ -11,7 +11,7 @@ config_version=5
 [application]
 
 config/name="Novo Projeto de Jogo"
-run/main_scene="uid://buq4so3g2bvkd"
+run/main_scene="uid://cucat22fb8xxs"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
