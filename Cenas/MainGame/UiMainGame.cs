@@ -6,9 +6,23 @@ public partial class UiMainGame : Node2D
 {
     // Dicionário para armazenar informações dos jogadores
     private Dictionary<long, string> connectedPlayers = new Dictionary<long, string>();
+    private List<long> orderPlayers = [];
+
+    private ItemList _playerList;
 
     public override void _Ready()
     {
+        // Verificação segura do node PlayerList
+        if (HasNode("PlayerList"))
+        {
+            _playerList = GetNode<ItemList>("PlayerList");
+        }
+        else
+        {
+            GD.PrintErr("Node 'PlayerList' não encontrado na cena. Verifique a estrutura da cena.");
+        }
+
+
         // Conecta aos eventos de multiplayer para monitorar mudanças
 
         /*
@@ -20,7 +34,7 @@ public partial class UiMainGame : Node2D
 2.	Quando você é um cliente: Após se conectar com sucesso a um servidor
 3.	Durante o jogo: Enquanto a conexão multiplayer estiver ativa
 
-         */
+     */
         if (Multiplayer.HasMultiplayerPeer())
         {
             Multiplayer.PeerConnected += OnPeerConnected;
@@ -118,11 +132,13 @@ public partial class UiMainGame : Node2D
                 if (isConnected)
                 {
                     connectedPlayers[originalPlayerId] = playerName;
+
+                    orderPlayers.Add(originalPlayerId);
                 }
                 else
                 {
                     // Marca como desconectado
-                    connectedPlayers[originalPlayerId] = $"{playerName} [DESCONECTADO]";
+                    connectedPlayers.Remove(originalPlayerId);
                 }
             }
         }
@@ -182,13 +198,15 @@ public partial class UiMainGame : Node2D
 
     private void UpdatePlayerUI()
     {
-        GD.Print("=== ATUALIZANDO UI COM LISTA DE JOGADORES ===");
-        foreach (var player in connectedPlayers)
+        if (_playerList != null)
         {
-            string status = player.Value.Contains("[DESCONECTADO]") ? " ❌" : " ✅";
-            GD.Print($"{player.Value}{status}");
+            _playerList.Clear();
+            foreach (var player in connectedPlayers)
+            {
+                var ordem = orderPlayers.IndexOf(player.Key) + 1;
+                _playerList.AddItem($"{player.Value} - Ordem: {ordem}");
+            }
         }
-        GD.Print("================================================");
     }
 
     // ✅ NOVO: RPC para notificar rejeição de conexão

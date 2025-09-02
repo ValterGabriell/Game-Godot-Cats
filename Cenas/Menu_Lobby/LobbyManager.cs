@@ -334,9 +334,6 @@ public partial class LobbyManager : Node2D
         GameState gameState = new GameState();
         gameSceneInstance.AddChild(gameState);
 
-        // Adiciona a nova cena à árvore
-        GetTree().Root.AddChild(gameSceneInstance);
-
         // ✅ FORÇA A EXECUÇÃO DO _Ready() DO GAMESTATE
         gameState._Ready();
 
@@ -351,12 +348,21 @@ public partial class LobbyManager : Node2D
         // Salva os jogadores originais no GameState
         GameState.Instance.StartGame(connectedPlayers);
 
-        // Remove a cena atual (lobby)
-        GetTree().Root.RemoveChild(GetTree().CurrentScene);
+        // ✅ SALVA A REFERÊNCIA DA CENA ATUAL ANTES DE QUALQUER OPERAÇÃO
+        var currentScene = GetTree().CurrentScene;
 
-        GD.Print(gameSceneInstance);
-        // Define a nova cena como a cena atual
+        // ✅ ADICIONA A NOVA CENA À ÁRVORE (APENAS UMA VEZ!)
+        GetTree().Root.AddChild(gameSceneInstance);
+
+        // ✅ DEFINE A NOVA CENA COMO ATUAL
         GetTree().CurrentScene = gameSceneInstance;
+
+        // ✅ REMOVE A CENA ANTIGA DE FORMA SEGURA
+        if (currentScene != null)
+        {
+            GetTree().Root.RemoveChild(currentScene);
+            currentScene.QueueFree();
+        }
 
         GD.Print("Transição para a cena do jogo concluída!");
     }
