@@ -1,25 +1,33 @@
 using Godot;
+using NovoProjetodeJogo;
+using NovoProjetodeJogo.Cenas.MainGame;
 using System;
 using System.Collections.Generic;
+using System.Reflection;
 
 public partial class UiMainGame : Node2D
 {
     // Dicionário para armazenar informações dos jogadores
     private Dictionary<long, string> connectedPlayers = new Dictionary<long, string>();
-    private List<long> orderPlayers = [];
 
+    /*COMPONENTES UI*/
     private ItemList _playerList;
+    private Button _btnNextTurn;
 
     public override void _Ready()
-    {
+
+    { 
         // Verificação segura do node PlayerList
         if (HasNode("PlayerList"))
-        {
             _playerList = GetNode<ItemList>("PlayerList");
-        }
-        else
+
+        if (HasNode("BtnNextTurn"))
         {
-            GD.PrintErr("Node 'PlayerList' não encontrado na cena. Verifique a estrutura da cena.");
+            _btnNextTurn = GetNode<Button>("BtnNextTurn");
+            PlayerInfo playerInfo = GameManager.Instance.GetCurrentTurn();
+            
+            _btnNextTurn.Text = "Próximo Turno De: ";
+            _btnNextTurn.Pressed += NextTurnPressed;
         }
 
 
@@ -50,10 +58,15 @@ public partial class UiMainGame : Node2D
         }
     }
 
+    private void NextTurnPressed()
+    {
+        
+        GameManager.Instance.NextTurn();
+    }
 
     private void OnPlayerReconnected(long playerId, string playerName)
     {
-        GD.Print($"🔄 RECONEXÃO BEM-SUCEDIDA: {playerName} (ID: {playerId})");
+        
         // Aqui você pode adicionar efeitos visuais, notificações, etc.
         ShowReconnectionNotification(playerName);
     }
@@ -61,13 +74,12 @@ public partial class UiMainGame : Node2D
 
     private void OnPeerConnected(long id)
     {
-        GD.Print($"Tentativa de conexão do peer: {id}");
+        
 
         // ✅ NOVO: Verifica se pode conectar
         if (GameState.Instance != null && !GameState.Instance.CanPlayerConnect(id))
         {
-            GD.Print($"CONEXÃO REJEITADA: Peer {id} tentou entrar durante a partida (não é jogador original)");
-
+           
             // Se for o servidor, desconecta o jogador não autorizado
             if (Multiplayer.IsServer())
             {
@@ -80,7 +92,7 @@ public partial class UiMainGame : Node2D
             return;
         }
 
-        GD.Print($"Peer {id} AUTORIZADO a conectar");
+        
 
         // Atualiza GameState
         if (GameState.Instance != null)
@@ -96,7 +108,7 @@ public partial class UiMainGame : Node2D
 
     private void OnPeerDisconnected(long id)
     {
-        GD.Print($"Jogador desconectado: {id}");
+        
 
         // Atualiza GameState
         if (GameState.Instance != null)
@@ -123,43 +135,56 @@ public partial class UiMainGame : Node2D
         // Se o GameState existe e o jogo começou, usa a lista do GameState
         if (GameState.Instance != null && GameState.Instance.IsGameStarted)
         {
-            // Mostra todos os jogadores originais, marcando os desconectados
-            foreach (var originalPlayerId in GameState.Instance.OriginalPlayers)
+            
+
+            // Usa a lista do GameState que já tem todos os jogadores
+            foreach (var player in GameState.Instance.ConnectedPlayers)
             {
-                bool isConnected = GameState.Instance.ConnectedPlayers.ContainsKey(originalPlayerId);
-                string playerName = GameState.Instance.ConnectedPlayers.GetValueOrDefault(originalPlayerId, $"Jogador {originalPlayerId}");
-
-                if (isConnected)
-                {
-                    connectedPlayers[originalPlayerId] = playerName;
-
-                    orderPlayers.Add(originalPlayerId);
-                }
-                else
-                {
-                    // Marca como desconectado
-                    connectedPlayers.Remove(originalPlayerId);
-                }
+                connectedPlayers[player.Key] = player.Value;
+                
             }
+
+            UpdatePlayerUI();
+
+            
+            return;
         }
-        else
-        {
-            // Modo normal (lobby ou sem GameState)
-            var peerIds = Multiplayer.GetPeers();
-            connectedPlayers[Multiplayer.GetUniqueId()] = "Você";
 
-            foreach (int peerId in peerIds)
+        
+
+        // Modo normal (lobby ou sem GameState)
+        var peerIds = Multiplayer.GetPeers();
+
+        // ✅ ADICIONADO: Inclui o próprio jogador local
+        long myId = Multiplayer.GetUniqueId();
+        var myNick = GetPlayerNameById(myId);
+        connectedPlayers[myId] = myNick;
+        
+
+        // Adiciona todos os outros peers
+        int index = 1; // Começa do index 1 pois já adicionamos o jogador local
+        foreach (int peerId in peerIds)
+        {
+            var nick = GetPlayerNameById(peerId);
+            connectedPlayers[peerId] = nick;
+            
+
+            var player = new PlayerInfo
             {
-                connectedPlayers[peerId] = GetPlayerNameById(peerId);
-            }
+                PlayerID = peerId,
+                PlayerName = nick,
+                PlayerOrder = index
+            };
+
+            index++;
         }
 
         UpdatePlayerUI();
 
-        GD.Print($"Total de jogadores: {connectedPlayers.Count}");
+        
         foreach (var player in connectedPlayers)
         {
-            GD.Print($"ID: {player.Key}, Nome: {player.Value}");
+            
         }
     }
 
@@ -185,14 +210,14 @@ public partial class UiMainGame : Node2D
         {
             // Remove o peer da conexão
             Multiplayer.MultiplayerPeer.DisconnectPeer((int)peerId);
-            GD.Print($"Peer não autorizado {peerId} foi desconectado");
+            
         }
     }
 
     private void ShowReconnectionNotification(string playerName)
     {
         // Aqui você pode mostrar uma notificação na UI
-        GD.Print($"🎉 {playerName} voltou à partida!");
+        
         // Exemplo: mostrar toast, som de notificação, etc.
     }
 
@@ -201,11 +226,28 @@ public partial class UiMainGame : Node2D
         if (_playerList != null)
         {
             _playerList.Clear();
+            int index = 0;
+
+            
+
             foreach (var player in connectedPlayers)
             {
-                var ordem = orderPlayers.IndexOf(player.Key) + 1;
-                _playerList.AddItem($"{player.Value} - Ordem: {ordem}");
+                string displayName = player.Value;
+
+                // Adiciona indicadores especiais
+                if (player.Key == Multiplayer.GetUniqueId())
+                    displayName += " (VOCÊ)";
+                if (player.Key == 1)
+                    displayName += " [HOST]";
+
+                _playerList.AddItem(displayName);
+                
+                index++;
             }
+        }
+        else
+        {
+            
         }
     }
 
@@ -213,7 +255,7 @@ public partial class UiMainGame : Node2D
     [Rpc(MultiplayerApi.RpcMode.Authority)]
     private void NotifyConnectionRejected(string reason)
     {
-        GD.PrintErr($"Conexão rejeitada: {reason}");
+        
         // Aqui você pode mostrar uma mensagem de erro na UI
         // Por exemplo: popup, toast, etc.
     }

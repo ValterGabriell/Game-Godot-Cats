@@ -1,5 +1,5 @@
 using Godot;
-
+using NovoProjetodeJogo;
 using System;
 using System.Collections.Generic;
 
@@ -99,7 +99,7 @@ public partial class LobbyManager : Node2D
 
     private void AddPlayer(long id)
     {
-        GD.Print($"Peer conectado: {id}");
+       
 
         //Apenas o SERVIDOR deve notificar os outros clientes
         if (multiplayerApi.IsServer())
@@ -111,7 +111,7 @@ public partial class LobbyManager : Node2D
     }
     private void RemovePlayer(long id)
     {
-        GD.Print($"Peer desconectado: {id}");
+       
 
         // Remove da lista local
         if (connectedPlayers.ContainsKey(id))
@@ -130,7 +130,7 @@ public partial class LobbyManager : Node2D
 
     private void OnClientConnectedToServer()
     {
-        GD.Print("Cliente conectado ao servidor com sucesso!");
+       
         // Cliente envia seu nickname automaticamente para o servidor
         // ❗ ISSO EXECUTA NO CLIENTE, NÃO NO SERVIDOR!
         RpcId(1, nameof(RegisterPlayer), multiplayerApi.GetUniqueId(), GetNickname());
@@ -138,7 +138,7 @@ public partial class LobbyManager : Node2D
 
     private void OnClientConnectionFailed()
     {
-        GD.Print("Falha do cliente ao conectar no servidor");
+       
     }
 
     // ========== FIM DO EVENTOS DE CONEXÃO ==========
@@ -211,7 +211,7 @@ public partial class LobbyManager : Node2D
         }
 
         UpdatePlayerListUI();
-        GD.Print("Lista completa de jogadores recebida!");
+       
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority)]
@@ -220,7 +220,7 @@ public partial class LobbyManager : Node2D
         // Adiciona um novo jogador à lista local
         connectedPlayers[playerId] = nickname;
         UpdatePlayerListUI();
-        GD.Print($"Novo jogador adicionado: {nickname} (ID: {playerId})");
+       
     }
 
     [Rpc(MultiplayerApi.RpcMode.Authority)]
@@ -232,7 +232,7 @@ public partial class LobbyManager : Node2D
             string nickname = connectedPlayers[playerId];
             connectedPlayers.Remove(playerId);
             UpdatePlayerListUI();
-            GD.Print($"Jogador removido: {nickname} (ID: {playerId})");
+           
         }
     }
 
@@ -240,7 +240,7 @@ public partial class LobbyManager : Node2D
     [Rpc(MultiplayerApi.RpcMode.Authority, CallLocal = true)]
     private void StartGame()
     {
-        GD.Print("Partida iniciando...");
+       
         // Transição para a cena do jogo
         CallDeferred(nameof(SwitchToGameScene));
     }
@@ -263,7 +263,7 @@ public partial class LobbyManager : Node2D
             _playerList.AddItem(displayText);
         }
 
-        GD.Print($"Lista atualizada: {connectedPlayers.Count} jogadores conectados");
+       
     }
     // ========== FIM DA UI ==========
 
@@ -277,18 +277,18 @@ public partial class LobbyManager : Node2D
         // Somente o host pode iniciar a partida
         if (!multiplayerApi.IsServer())
         {
-            GD.Print("Apenas o host pode iniciar a partida!");
+           
             return;
         }
 
         // Verifica se há jogadores suficientes para iniciar
         if (connectedPlayers.Count < 2) // Ajuste conforme necessário
         {
-            GD.Print("Jogadores insuficientes para iniciar a partida!");
+           
             return;
         }
 
-        GD.Print("Host iniciando a partida para todos os jogadores...");
+       
         // Envia comando para todos os clientes mudarem de cena
         Rpc(nameof(StartGame));
     }
@@ -297,15 +297,15 @@ public partial class LobbyManager : Node2D
         string nickname = GetNickname();
         if (string.IsNullOrEmpty(nickname))
         {
-            GD.Print("Nickname cannot be empty.");
+           
             return false;
         }
         if (nickname.Length < 3 || nickname.Length > 15)
         {
-            GD.Print("Nickname must be between 3 and 15 characters.");
+           
             return false;
         }
-        GD.Print("Nickname is valid: " + nickname);
+       
         return true;
     }
 
@@ -316,46 +316,43 @@ public partial class LobbyManager : Node2D
 
     private void SwitchToGameScene()
     {
-        GD.Print("Mudando para a cena do jogo...");
+       
 
         // Carrega a cena do jogo PRIMEIRO
         PackedScene gameScene = ResourceLoader.Load<PackedScene>(GAME_SCENE_PATH);
 
         if (gameScene == null)
         {
-            GD.PrintErr($"Erro: Não foi possível carregar a cena do jogo em: {GAME_SCENE_PATH}");
             return;
         }
 
         // Instancia a nova cena
         Node gameSceneInstance = gameScene.Instantiate();
 
-        // ✅ CRIA E ADICIONA O GAMESTATE MANUALMENTE
-        GameState gameState = new GameState();
-        gameSceneInstance.AddChild(gameState);
-
-        // ✅ FORÇA A EXECUÇÃO DO _Ready() DO GAMESTATE
-        gameState._Ready();
-
-        // ✅ AGORA o GameState deve estar inicializado
-        // Verifica se GameState.Instance foi inicializado
-        if (GameState.Instance == null)
-        {
-            GD.PrintErr("Erro: GameState.Instance ainda é nulo após carregar a cena do jogo!");
-            return;
-        }
-
-        // Salva os jogadores originais no GameState
-        GameState.Instance.StartGame(connectedPlayers);
-
         // ✅ SALVA A REFERÊNCIA DA CENA ATUAL ANTES DE QUALQUER OPERAÇÃO
         var currentScene = GetTree().CurrentScene;
 
-        // ✅ ADICIONA A NOVA CENA À ÁRVORE (APENAS UMA VEZ!)
+        // ✅ ADICIONA A NOVA CENA À ÁRVORE (FORÇA O _Ready() A EXECUTAR)
         GetTree().Root.AddChild(gameSceneInstance);
 
         // ✅ DEFINE A NOVA CENA COMO ATUAL
         GetTree().CurrentScene = gameSceneInstance;
+
+        // ✅ AGORA verifica se GameState foi inicializado (APÓS adicionar à árvore)
+        if (GameState.Instance == null)
+        {
+            return;
+        }
+
+        // ✅ DEBUG: Imprime os jogadores que serão passados para o GameState
+       
+        foreach (var player in connectedPlayers)
+        {
+           
+        }
+
+        // Salva os jogadores originais no GameState
+        GameState.Instance.StartGame(connectedPlayers);
 
         // ✅ REMOVE A CENA ANTIGA DE FORMA SEGURA
         if (currentScene != null)
@@ -364,7 +361,7 @@ public partial class LobbyManager : Node2D
             currentScene.QueueFree();
         }
 
-        GD.Print("Transição para a cena do jogo concluída!");
+       
     }
 
 }

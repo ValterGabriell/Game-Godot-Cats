@@ -1,6 +1,8 @@
-[gd_scene load_steps=7 format=3 uid="uid://d1sjqekojkcba"]
+[gd_scene load_steps=9 format=3 uid="uid://d1sjqekojkcba"]
 
+[ext_resource type="Script" uid="uid://bkvkub0acu61n" path="res://Cenas/MainGame/GameManager.cs" id="1_c0cmi"]
 [ext_resource type="Script" uid="uid://cp0riyrlv5vus" path="res://Scripts/Cenas/CardManager/CardManager.cs" id="1_dyfq1"]
+[ext_resource type="Script" uid="uid://vrl3gnduro7l" path="res://Cenas/Menu_Lobby/GameState.cs" id="2_2obb4"]
 [ext_resource type="PackedScene" uid="uid://db4s07ndy3oj5" path="res://Cenas/MainGame/Componentes/CardSlot.tscn" id="2_fw2f6"]
 [ext_resource type="Script" uid="uid://dcpmmn1ogps8q" path="res://Scripts/Cenas/PlayerHand/PlayerHand.cs" id="3_c0cmi"]
 [ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/MainGame/Componentes/Deck.tscn" id="4_2obb4"]
@@ -8,7 +10,14 @@
 [ext_resource type="Script" uid="uid://b2q6fsnvvmwqk" path="res://Cenas/MainGame/UiMainGame.cs" id="6_fw2f6"]
 
 [node name="Main" type="Node2D"]
-script = ExtResource("6_fw2f6")
+
+[node name="Globais" type="Node" parent="."]
+
+[node name="GameManager" type="Node" parent="Globais"]
+script = ExtResource("1_c0cmi")
+
+[node name="GameState" type="Node" parent="Globais"]
+script = ExtResource("2_2obb4")
 
 [node name="CardManager" type="Node2D" parent="."]
 script = ExtResource("1_dyfq1")
@@ -36,3 +45,11 @@ script = ExtResource("6_fw2f6")
 [node name="PlayerList" type="ItemList" parent="UIMainGame"]
 offset_right = 269.0
 offset_bottom = 382.0
+
+[node name="BtnNextTurn" type="Button" parent="UIMainGame"]
+offset_left = 57.0
+offset_top = 413.0
+offset_right = 178.0
+offset_bottom = 444.0
+text = "Proximo turno
+"

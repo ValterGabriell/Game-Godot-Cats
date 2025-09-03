@@ -15,6 +15,11 @@ run/main_scene="uid://cucat22fb8xxs"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*res://Cenas/MainGame/GameManager.cs"
+GameState="*res://Cenas/Menu_Lobby/GameState.cs"
+
 [dotnet]
 
 project/assembly_name="Novo Projeto de Jogo"
