@@ -1,13 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://d1sjqekojkcba"]
+[gd_scene load_steps=6 format=3 uid="uid://d1sjqekojkcba"]
 
 [ext_resource type="Script" uid="uid://bkvkub0acu61n" path="res://Cenas/MainGame/GameManager.cs" id="1_c0cmi"]
-[ext_resource type="Script" uid="uid://cp0riyrlv5vus" path="res://Scripts/Cenas/CardManager/CardManager.cs" id="1_dyfq1"]
 [ext_resource type="Script" uid="uid://vrl3gnduro7l" path="res://Cenas/Menu_Lobby/GameState.cs" id="2_2obb4"]
-[ext_resource type="PackedScene" uid="uid://db4s07ndy3oj5" path="res://Cenas/MainGame/Componentes/CardSlot.tscn" id="2_fw2f6"]
-[ext_resource type="Script" uid="uid://dcpmmn1ogps8q" path="res://Scripts/Cenas/PlayerHand/PlayerHand.cs" id="3_c0cmi"]
-[ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/MainGame/Componentes/Deck.tscn" id="4_2obb4"]
-[ext_resource type="Script" uid="uid://c3j7tybh8uehc" path="res://Scripts/Geral/UiMainGameManager.cs" id="5_5jcnx"]
-[ext_resource type="Script" uid="uid://b2q6fsnvvmwqk" path="res://Cenas/MainGame/UiMainGame.cs" id="6_fw2f6"]
+[ext_resource type="Script" uid="uid://cbt57cp7kj0do" path="res://Cenas/MainGame/MultiplayerManager.cs" id="3_5jcnx"]
+[ext_resource type="PackedScene" uid="uid://cucat22fb8xxs" path="res://Cenas/Menu_Lobby/LobbyManager.tscn" id="4_23iih"]
+[ext_resource type="PackedScene" uid="uid://0qqxm54e8dmi" path="res://Cenas/MainGame/MainGame.tscn" id="5_dyfq1"]
 
 [node name="Main" type="Node2D"]
 
@@ -19,37 +16,12 @@ script = ExtResource("1_c0cmi")
 [node name="GameState" type="Node" parent="Globais"]
 script = ExtResource("2_2obb4")
 
-[node name="CardManager" type="Node2D" parent="."]
-script = ExtResource("1_dyfq1")
+[node name="MultiplayerManager" type="Node" parent="Globais"]
+script = ExtResource("3_5jcnx")
 
-[node name="CardSlot" parent="." instance=ExtResource("2_fw2f6")]
-position = Vector2(772, 135)
+[node name="LobbyManager" parent="." instance=ExtResource("4_23iih")]
+GAME_SCENE = ExtResource("5_dyfq1")
 
-[node name="CardSlot2" parent="." instance=ExtResource("2_fw2f6")]
-position = Vector2(920, 133)
+[node name="MainGAME" parent="." instance=ExtResource("5_dyfq1")]
 
-[node name="PlayerHand" type="Node2D" parent="."]
-script = ExtResource("3_c0cmi")
-
-[node name="Deck" parent="." instance=ExtResource("4_2obb4")]
-position = Vector2(860, 377)
-
-[node name="InputManager" type="Node2D" parent="."]
-
-[node name="UIMainGameManager" type="Node2D" parent="."]
-script = ExtResource("5_5jcnx")
-
-[node name="UIMainGame" type="Node2D" parent="."]
-script = ExtResource("6_fw2f6")
-
-[node name="PlayerList" type="ItemList" parent="UIMainGame"]
-offset_right = 269.0
-offset_bottom = 382.0
-
-[node name="BtnNextTurn" type="Button" parent="UIMainGame"]
-offset_left = 57.0
-offset_top = 413.0
-offset_right = 178.0
-offset_bottom = 444.0
-text = "Proximo turno
-"
+[editable path="MainGAME"]

@@ -11,6 +11,7 @@ public partial class LobbyManager : Node2D
     private Button _btnIniciarPartida;
     private TextEdit _textInputNickname;
     private ItemList _playerList;
+    private Node2D _mainGameNode;
 
 
     /*VARIAVEL DE TRABALHO*/
@@ -23,7 +24,6 @@ public partial class LobbyManager : Node2D
     private const string SERVER_IP = "localhost";
     private const int SERVER_PORT = 7777;
 
-    private const string GAME_SCENE_PATH = "res://Cenas/MainGame/Main.tscn";
     //
     public override void _Ready()
     {
@@ -32,8 +32,9 @@ public partial class LobbyManager : Node2D
         _btnEntrarNaPartida = GetNode<Button>("CanvasLayer/BtnEntrarNaPartida");
         _btnIniciarPartida = GetNode<Button>("CanvasLayer/BtnIniciarPartida");
         _textInputNickname = GetNode<TextEdit>("CanvasLayer/TextInputNickname");
+        _mainGameNode = GetNode<Node2D>("MainGame");
         _playerList = GetNode<ItemList>("CanvasLayer/PlayersList");
-
+    
         _btnEntrarNaPartida.Pressed += OnBtnEntrarNaPartidaPressed;
         _btnHostearPartida.Pressed += OnBtnHostearPartidaPressed;
         _btnIniciarPartida.Pressed += OnBtnIniciarPartidaPressed;
@@ -45,56 +46,42 @@ public partial class LobbyManager : Node2D
     private void OnBtnHostearPartidaPressed()
     {
         if (!ValidateNickname()) return;
-        peer = new ENetMultiplayerPeer();
-        peer.CreateServer(SERVER_PORT);
 
-        MultiplayerPeer.ConnectionStatus connectionStatus = peer.GetConnectionStatus();
+        // ✅ USA O SINGLETON
+        MultiplayerManager.Instance.SetupServer(SERVER_PORT);
 
-        if (connectionStatus == MultiplayerPeer.ConnectionStatus.Connected)
+        multiplayerApi = MultiplayerManager.Instance.GetMultiplayerApi();
+
+        if (multiplayerApi.HasMultiplayerPeer())
         {
-            multiplayerApi.MultiplayerPeer = peer;
-            /*
-             * O PeerConnected é um sinal (event) do Godot que é disparado 
-             * automaticamente sempre que um novo peer (jogador) se conecta ao servidor multiplayer.
-             * Quando um cliente se conecta, apenas o servidor recebe o sinal PeerConnected. 
-             * O cliente não é notificado sobre outros jogadores que já estavam conectados ou que se conectam depois.
-             */
-            /*
-              Disparo automático do evento
-             // Isso acontece AUTOMATICAMENTE pelo Godot, não pelo seu código!
-             // Quando um cliente faz: peer.CreateClient(SERVER_IP, SERVER_PORT)
-             // O Godot internamente dispara: PeerConnected(id_do_cliente)
-              */
-            // No método OnBtnHostearPartidaPressed - executado UMA VEZ
-            multiplayerApi.PeerConnected += AddPlayer; // ✅ Registra o método AddPlayer para ser chamado
-            multiplayerApi.PeerDisconnected += RemovePlayer;  // ✅ Registra o método OnPeerDisconnected para ser chamado
+            multiplayerApi.PeerConnected += AddPlayer;
+            multiplayerApi.PeerDisconnected += RemovePlayer;
 
-            connectedPlayers[1] = GetNickname(); // Adiciona o host à lista de jogadores conectados
+            connectedPlayers[1] = GetNickname();
             UpdatePlayerListUI();
+
+            GD.Print($"✅ Host configurado - IsServer: {multiplayerApi.IsServer()}");
         }
     }
 
     private void OnBtnEntrarNaPartidaPressed()
     {
         if (!ValidateNickname()) return;
-        peer = new ENetMultiplayerPeer();
-        peer.CreateClient(SERVER_IP, SERVER_PORT);
-        multiplayerApi.MultiplayerPeer = peer;
 
-        // Eventos para o cliente
+        // ✅ USA O SINGLETON
+        MultiplayerManager.Instance.SetupClient(SERVER_IP, SERVER_PORT);
 
-        // Imediatamente após o cliente se conectar com sucesso ao servidor multiplayer
-        multiplayerApi.ConnectedToServer += OnClientConnectedToServer;
+        multiplayerApi = MultiplayerManager.Instance.GetMultiplayerApi();
 
-        //Quando o cliente falha ao tentar se conectar ao servidor multiplaye
-        multiplayerApi.ConnectionFailed += OnClientConnectionFailed;
+        if (multiplayerApi.HasMultiplayerPeer())
+        {
+            multiplayerApi.ConnectedToServer += OnClientConnectedToServer;
+            multiplayerApi.ConnectionFailed += OnClientConnectionFailed;
+            multiplayerApi.PeerConnected += AddPlayer;
+            multiplayerApi.PeerDisconnected += RemovePlayer;
 
-        //Quando outros clientes se conectam depois que este cliente já está conectado
-
-        multiplayerApi.PeerConnected += AddPlayer; // Outros jogadores que se conectam depois
-
-        //Quando outros clientes se desconectam
-        multiplayerApi.PeerDisconnected += RemovePlayer; // Jogadores que se desconectam
+            GD.Print($"✅ Cliente configurado - IsServer: {multiplayerApi.IsServer()}");
+        }
     }
 
     private void AddPlayer(long id)
@@ -316,52 +303,16 @@ public partial class LobbyManager : Node2D
 
     private void SwitchToGameScene()
     {
-       
+        GD.Print("Mudando para a cena do jogo...");
+        GD.Print(_mainGameNode);
 
-        // Carrega a cena do jogo PRIMEIRO
-        PackedScene gameScene = ResourceLoader.Load<PackedScene>(GAME_SCENE_PATH);
-
-        if (gameScene == null)
+        if (_mainGameNode == null)
         {
             return;
         }
 
-        // Instancia a nova cena
-        Node gameSceneInstance = gameScene.Instantiate();
-
-        // ✅ SALVA A REFERÊNCIA DA CENA ATUAL ANTES DE QUALQUER OPERAÇÃO
-        var currentScene = GetTree().CurrentScene;
-
-        // ✅ ADICIONA A NOVA CENA À ÁRVORE (FORÇA O _Ready() A EXECUTAR)
-        GetTree().Root.AddChild(gameSceneInstance);
-
-        // ✅ DEFINE A NOVA CENA COMO ATUAL
-        GetTree().CurrentScene = gameSceneInstance;
-
-        // ✅ AGORA verifica se GameState foi inicializado (APÓS adicionar à árvore)
-        if (GameState.Instance == null)
-        {
-            return;
-        }
-
-        // ✅ DEBUG: Imprime os jogadores que serão passados para o GameState
-       
-        foreach (var player in connectedPlayers)
-        {
-           
-        }
-
-        // Salva os jogadores originais no GameState
-        GameState.Instance.StartGame(connectedPlayers);
-
-        // ✅ REMOVE A CENA ANTIGA DE FORMA SEGURA
-        if (currentScene != null)
-        {
-            GetTree().Root.RemoveChild(currentScene);
-            currentScene.QueueFree();
-        }
-
-       
+        this.Visible = false;
+        _mainGameNode.Visible = true;
     }
 
 }

@@ -19,6 +19,7 @@ config/icon="res://icon.svg"
 
 GameManager="*res://Cenas/MainGame/GameManager.cs"
 GameState="*res://Cenas/Menu_Lobby/GameState.cs"
+MultiplayerManager="*res://Cenas/MainGame/MultiplayerManager.cs"
 
 [dotnet]
 

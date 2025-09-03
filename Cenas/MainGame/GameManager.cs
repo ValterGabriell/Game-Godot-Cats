@@ -11,6 +11,8 @@ namespace NovoProjetodeJogo
         public static GameManager Instance { get; private set; }
 
 
+        private ENetMultiplayerPeer _peer;
+        private bool _isServer = false;
         private List<PlayerInfo> orderPlayers = [];
 
         private PlayerInfo _currentTurnPlayer = null;
@@ -20,23 +22,61 @@ namespace NovoProjetodeJogo
             Instance = this;
         }
 
+        public void SetupServer(int port)
+        {
+            _peer = new ENetMultiplayerPeer();
+            _peer.CreateServer(port);
+
+            GetTree().GetMultiplayer().MultiplayerPeer = _peer;
+            _isServer = true;
+
+        }
+
         public PlayerInfo GetCurrentTurn()
         {
             return _currentTurnPlayer;
         }
 
+        public void SetInitialPlayer(PlayerInfo playerInfo)
+        {
+            _currentTurnPlayer = playerInfo;
+        }
+
+        // ✅ NOVO: Método público para sincronizar o turno atual nos clientes
+        public void SetCurrentTurnPlayer(PlayerInfo playerInfo)
+        {
+            _currentTurnPlayer = playerInfo;
+        }
+
+
         public void NextTurn()
         {
-            
+            if (orderPlayers.Count == 0)
+            {
+                return;
+            }
+
+            if (_currentTurnPlayer == null)
+            {
+                return;
+            }
+
+
             int index = orderPlayers.IndexOf(_currentTurnPlayer);
-            if (index == -1 || index == orderPlayers.Count - 1)
+
+            if (index == -1)
+            {
                 _currentTurnPlayer = orderPlayers[0];
+            }
+            else if (index == orderPlayers.Count - 1)
+            {
+                _currentTurnPlayer = orderPlayers[0];
+            }
             else
             {
                 _currentTurnPlayer = orderPlayers[index + 1];
             }
 
-            GD.Print($"Próximo Turno: {_currentTurnPlayer.PlayerName}");
         }
 
         public void AddPlayer(PlayerInfo playerInfo)
@@ -44,10 +84,15 @@ namespace NovoProjetodeJogo
             orderPlayers.Add(playerInfo);
         }
 
-
-        public PlayerInfo GetCurrentPlayerById(long id)
+        // ✅ NOVO: Método para debug
+        public void LogPlayerOrder()
         {
-           return this.orderPlayers.FirstOrDefault(p => p.PlayerID == id);
+            for (int i = 0; i < orderPlayers.Count; i++)
+            {
+                var player = orderPlayers[i];
+                string marker = player == _currentTurnPlayer ? " <- ATUAL" : "";
+            }
         }
+
     }
 }

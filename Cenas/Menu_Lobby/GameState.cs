@@ -20,8 +20,7 @@ namespace NovoProjetodeJogo
         [Signal]
         public delegate void GameStateChangedEventHandler(bool isStarted);
 
-        [Signal]
-        public delegate void PlayerReconnectedEventHandler(long playerId, string playerName);
+    
 
         public override void _Ready()
         {
@@ -41,7 +40,9 @@ namespace NovoProjetodeJogo
                 OriginalPlayers.Add(player.Key);
                 ConnectedPlayers[player.Key] = player.Value;
 
-                GameManager.Instance.AddPlayer(new PlayerInfo(player.Key, player.Value,index ));
+                var playerInfo = new PlayerInfo(player.Key, player.Value, index);
+                if (index == 0) GameManager.Instance.SetInitialPlayer(playerInfo);
+                GameManager.Instance.AddPlayer(playerInfo);
                 index++;
             }
 
@@ -69,12 +70,6 @@ namespace NovoProjetodeJogo
         public void PlayerConnected(long playerId, string playerName)
         {
             ConnectedPlayers[playerId] = playerName;
-
-            if (IsGameStarted && IsOriginalPlayer(playerId))
-            {
-                EmitSignal(SignalName.PlayerReconnected, playerId, playerName);
-                
-            }
         }
 
         public void PlayerDisconnected(long playerId)

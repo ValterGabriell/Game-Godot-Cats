@@ -1,6 +1,12 @@
-[gd_scene load_steps=2 format=3 uid="uid://cucat22fb8xxs"]
+[gd_scene load_steps=8 format=3 uid="uid://cucat22fb8xxs"]
 
 [ext_resource type="Script" uid="uid://thgbt8dypl2d" path="res://Cenas/Menu_Lobby/LobbyManager.cs" id="1_rl6de"]
+[ext_resource type="Script" uid="uid://cp0riyrlv5vus" path="res://Scripts/Cenas/CardManager/CardManager.cs" id="2_3e330"]
+[ext_resource type="PackedScene" uid="uid://db4s07ndy3oj5" path="res://Cenas/MainGame/Componentes/CardSlot.tscn" id="3_a0oxm"]
+[ext_resource type="Script" uid="uid://dcpmmn1ogps8q" path="res://Scripts/Cenas/PlayerHand/PlayerHand.cs" id="4_6c8lx"]
+[ext_resource type="PackedScene" uid="uid://moss4flv1dk6" path="res://Cenas/MainGame/Componentes/Deck.tscn" id="5_2gqji"]
+[ext_resource type="Script" uid="uid://c3j7tybh8uehc" path="res://Scripts/Geral/UiMainGameManager.cs" id="6_w3ows"]
+[ext_resource type="Script" uid="uid://b2q6fsnvvmwqk" path="res://Cenas/MainGame/UiMainGame.cs" id="7_14ng2"]
 
 [node name="LobbyManager" type="Node2D"]
 script = ExtResource("1_rl6de")
@@ -38,3 +44,41 @@ offset_top = 192.0
 offset_right = 457.0
 offset_bottom = 223.0
 text = "Começar"
+
+[node name="MainGame" type="Node2D" parent="."]
+visible = false
+
+[node name="CardManager" type="Node2D" parent="MainGame"]
+script = ExtResource("2_3e330")
+
+[node name="CardSlot" parent="MainGame" instance=ExtResource("3_a0oxm")]
+position = Vector2(772, 135)
+
+[node name="CardSlot2" parent="MainGame" instance=ExtResource("3_a0oxm")]
+position = Vector2(920, 133)
+
+[node name="PlayerHand" type="Node2D" parent="MainGame"]
+script = ExtResource("4_6c8lx")
+
+[node name="Deck" parent="MainGame" instance=ExtResource("5_2gqji")]
+position = Vector2(860, 377)
+
+[node name="InputManager" type="Node2D" parent="MainGame"]
+
+[node name="UIMainGameManager" type="Node2D" parent="MainGame"]
+script = ExtResource("6_w3ows")
+
+[node name="UIMainGame" type="Node2D" parent="MainGame"]
+script = ExtResource("7_14ng2")
+
+[node name="PlayerList" type="ItemList" parent="MainGame/UIMainGame"]
+offset_right = 269.0
+offset_bottom = 382.0
+
+[node name="BtnNextTurn" type="Button" parent="MainGame/UIMainGame"]
+offset_left = 57.0
+offset_top = 413.0
+offset_right = 178.0
+offset_bottom = 444.0
+text = "Proximo turno
+"

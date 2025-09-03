@@ -4,7 +4,4 @@
     <EnableDynamicLoading>true</EnableDynamicLoading>
     <RootNamespace>NovoProjetodeJogo</RootNamespace>
   </PropertyGroup>
-  <ItemGroup>
-    <Folder Include="Cenas\" />
-  </ItemGroup>
 </Project>
