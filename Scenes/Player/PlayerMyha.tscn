@@ -1,0 +1,180 @@
+[gd_scene load_steps=19 format=3 uid="uid://bufw5v6235ukr"]
+
+[ext_resource type="Script" uid="uid://4wybkbpiv1" path="res://Scenes/Player/PlayerConfig.cs" id="1_rns3i"]
+[ext_resource type="Script" uid="uid://c6sgdy2684jww" path="res://Scenes/Player/PlayerMove.cs" id="1_xjst2"]
+[ext_resource type="Texture2D" uid="uid://cbeme123n8v1u" path="res://Assets/Cats-ItchIO/white cat with text.png" id="2_ivywa"]
+[ext_resource type="Texture2D" uid="uid://box5gq6rppw4r" path="res://Assets/Cats-ItchIO/black cat with text.png" id="2_rns3i"]
+[ext_resource type="Script" uid="uid://dtj28ewyi1pyi" path="res://Scenes/Player/CameraHandle.cs" id="4_ivywa"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xjst2"]
+radius = 11.353
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbpft"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(310, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbcm5"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(372, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dk8t8"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(434, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq6bn"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(496, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx8pv"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(558, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ug4f"]
+atlas = ExtResource("2_rns3i")
+region = Rect2(620, 320, 62, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_iflpb"]
+atlas = ExtResource("2_ivywa")
+region = Rect2(297, 640, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f3esm"]
+atlas = ExtResource("2_ivywa")
+region = Rect2(365, 640, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_shkub"]
+atlas = ExtResource("2_ivywa")
+region = Rect2(433, 640, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_27ck4"]
+atlas = ExtResource("2_ivywa")
+region = Rect2(501, 640, 68, 64)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_12mos"]
+atlas = ExtResource("2_ivywa")
+region = Rect2(569, 640, 68, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_xjst2"]
+animations = [{
+"frames": [],
+"loop": true,
+"name": &"Idle",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rbpft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbcm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dk8t8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq6bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx8pv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ug4f")
+}],
+"loop": true,
+"name": &"LeftWalk",
+"speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_iflpb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f3esm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_shkub")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_27ck4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12mos")
+}],
+"loop": true,
+"name": &"RunLeft",
+"speed": 5.0
+}]
+
+[node name="CatMyha" type="Node2D" node_paths=PackedStringArray("PlayerCamera") groups=["PlayerConfigs"]]
+script = ExtResource("1_rns3i")
+CharacterCurrent = 1
+PlayerCamera = NodePath("CharacterBody2D/CameraHandle/CameraPlayer2")
+
+[node name="CharacterBody2D" type="CharacterBody2D" parent="."]
+collision_layer = 2
+collision_mask = 13
+script = ExtResource("1_xjst2")
+
+[node name="LabelsDebug" type="Control" parent="CharacterBody2D"]
+visible = false
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="VelocityLabel" type="Label" parent="CharacterBody2D/LabelsDebug"]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -133.0
+offset_right = 59.0
+offset_bottom = -110.0
+text = "TESTE VELOCITY"
+
+[node name="JumpLabel" type="Label" parent="CharacterBody2D/LabelsDebug"]
+layout_mode = 0
+offset_left = -64.0
+offset_top = -101.0
+offset_right = 18.0
+offset_bottom = -78.0
+text = "JumpLabel"
+
+[node name="GravityLabel" type="Label" parent="CharacterBody2D/LabelsDebug"]
+layout_mode = 0
+offset_left = -66.0
+offset_top = -164.0
+offset_right = 16.0
+offset_bottom = -141.0
+text = "JumpLabel"
+
+[node name="Key" type="Label" parent="CharacterBody2D/LabelsDebug"]
+layout_mode = 0
+offset_left = -74.0
+offset_top = -376.0
+offset_right = 507.0
+offset_bottom = -171.0
+text = "Se a tecla 6 for pressionada, a velocidade (Speed) aumenta em 50.
+Se a tecla 4 for pressionada, a velocidade (Speed) diminui em 50.
+
+Se a tecla 8 for pressionada, a força do pulo (JumpVelocity) aumenta em 50.
+Se a tecla 2 for pressionada, a força do pulo (JumpVelocity) diminui em 50.
+
+Se a tecla 0 for pressionada, a gravidade (Gravity) aumenta em 50.
+Se a tecla 5 for pressionada, a gravidade (Gravity) diminui em 50."
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-5, 1)
+scale = Vector2(1.67356, 1.2914)
+shape = SubResource("CircleShape2D_xjst2")
+
+[node name="AnimatedSprite2" type="AnimatedSprite2D" parent="CharacterBody2D"]
+texture_filter = 1
+position = Vector2(-3, 0)
+sprite_frames = SubResource("SpriteFrames_xjst2")
+animation = &"RunLeft"
+autoplay = "RunLeft"
+
+[node name="CameraHandle" type="Node2D" parent="CharacterBody2D"]
+script = ExtResource("4_ivywa")
+
+[node name="CameraPlayer2" type="Camera2D" parent="CharacterBody2D/CameraHandle"]
+visible = false
+position = Vector2(0, 1)

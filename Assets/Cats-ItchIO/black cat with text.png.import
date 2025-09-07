@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b2ifnc13tca84"
-path="res://.godot/imported/CHAR_TIAGO.png-e8eed1c78a76588a691a0dff7e7df35b.ctex"
+uid="uid://box5gq6rppw4r"
+path="res://.godot/imported/black cat with text.png-6b351c9a8e84890c0165d8ca1cb2329e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Player/Characters/CHAR_TIAGO.png"
-dest_files=["res://.godot/imported/CHAR_TIAGO.png-e8eed1c78a76588a691a0dff7e7df35b.ctex"]
+source_file="res://Assets/Cats-ItchIO/black cat with text.png"
+dest_files=["res://.godot/imported/black cat with text.png-6b351c9a8e84890c0165d8ca1cb2329e.ctex"]
 
 [params]
 

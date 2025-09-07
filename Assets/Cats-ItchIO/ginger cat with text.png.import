@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://beo7ttki2wq56"
-path="res://.godot/imported/CHAT_VICENTE.png-3bdfb97670cedcb9685992526a7e60f4.ctex"
+uid="uid://dxhnyw6wnfovk"
+path="res://.godot/imported/ginger cat with text.png-35a9312e5311427b8d9243c57dcc2301.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Scenes/Player/Characters/CHAT_VICENTE.png"
-dest_files=["res://.godot/imported/CHAT_VICENTE.png-3bdfb97670cedcb9685992526a7e60f4.ctex"]
+source_file="res://Assets/Cats-ItchIO/ginger cat with text.png"
+dest_files=["res://.godot/imported/ginger cat with text.png-35a9312e5311427b8d9243c57dcc2301.ctex"]
 
 [params]
 

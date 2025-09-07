@@ -15,9 +15,24 @@ run/main_scene="uid://26rhsbmk2ted"
 config/features=PackedStringArray("4.4", "C#", "Mobile")
 config/icon="res://icon.svg"
 
+[autoload]
+
+GameManager="*res://Scenes/MainGame/GameManager.cs"
+
 [dotnet]
 
 project/assembly_name="Novo Projeto de Jogo"
+
+[global_group]
+
+PlayerConfigs=""
+
+[layer_names]
+
+2d_physics/layer_1="walls"
+2d_physics/layer_2="players"
+2d_physics/layer_3="save_points"
+2d_physics/layer_4="death_area"
 
 [rendering]
 

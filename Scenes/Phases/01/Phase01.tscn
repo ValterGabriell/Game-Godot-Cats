@@ -1,0 +1,27 @@
+[gd_scene load_steps=4 format=3 uid="uid://santyuhss8f8"]
+
+[ext_resource type="Script" uid="uid://pkk515ggiexp" path="res://Scenes/Phases/01/Phase01.cs" id="1_jxknc"]
+[ext_resource type="PackedScene" uid="uid://djafp38m30p8v" path="res://Scenes/Plataforms/Base/BasePlataform.tscn" id="1_w1boh"]
+[ext_resource type="PackedScene" uid="uid://w6annpbkva75" path="res://Scenes/SavePoint/SavePoint.tscn" id="2_7tnhb"]
+
+[node name="Phase01" type="Node2D"]
+script = ExtResource("1_jxknc")
+
+[node name="BasePlataform4" type="Node2D" parent="."]
+
+[node name="BasePlataform" parent="BasePlataform4" instance=ExtResource("1_w1boh")]
+position = Vector2(1376, 575)
+scale = Vector2(22.2748, 1)
+
+[node name="BasePlataform2" parent="BasePlataform4" instance=ExtResource("1_w1boh")]
+position = Vector2(835, 421)
+scale = Vector2(2.51483, 0.52)
+
+[node name="BasePlataform3" parent="BasePlataform4" instance=ExtResource("1_w1boh")]
+position = Vector2(1264, 280)
+scale = Vector2(2.51483, 0.52)
+
+[node name="SavePoints" type="Node2D" parent="."]
+
+[node name="SavePoint" parent="SavePoints" instance=ExtResource("2_7tnhb")]
+position = Vector2(1260, 174)
