@@ -1,8 +1,9 @@
-[gd_scene load_steps=4 format=3 uid="uid://santyuhss8f8"]
+[gd_scene load_steps=5 format=3 uid="uid://santyuhss8f8"]
 
 [ext_resource type="Script" uid="uid://pkk515ggiexp" path="res://Scenes/Phases/01/Phase01.cs" id="1_jxknc"]
 [ext_resource type="PackedScene" uid="uid://djafp38m30p8v" path="res://Scenes/Plataforms/Base/BasePlataform.tscn" id="1_w1boh"]
 [ext_resource type="PackedScene" uid="uid://w6annpbkva75" path="res://Scenes/SavePoint/SavePoint.tscn" id="2_7tnhb"]
+[ext_resource type="PackedScene" uid="uid://sjh5x2uelsr0" path="res://Scenes/Enemies/Teste/EnemieTeste.tscn" id="4_ttf8o"]
 
 [node name="Phase01" type="Node2D"]
 script = ExtResource("1_jxknc")
@@ -25,3 +26,8 @@ scale = Vector2(2.51483, 0.52)
 
 [node name="SavePoint" parent="SavePoints" instance=ExtResource("2_7tnhb")]
 position = Vector2(1260, 174)
+
+[node name="Enemies" type="Node2D" parent="."]
+
+[node name="Area2D" parent="Enemies" instance=ExtResource("4_ttf8o")]
+position = Vector2(2075, 408)

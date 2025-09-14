@@ -12,11 +12,14 @@ public partial class PlayerMove : CharacterBody2D
     [Export]
     public float Gravity = 2700;
 
+    [Export]
+    public AnimatedSprite2D sprite2D { get; set; }
+
 
     public override void _Process(double delta)
     {
         var instance = GameManager.GetInstance();
-        
+
         var (activePlayer, _) = instance.GetActiveAndInactivePlayer();
         if (activePlayer == null) return;
 
@@ -25,18 +28,21 @@ public partial class PlayerMove : CharacterBody2D
             activePlayer.PlayerState = PlayerState.Idle; // Reset state
             this.Position = activePlayer.LastPlayerPosition;
         }
+
+      
     }
     
 
-
-    public override void _PhysicsProcess(double delta)
+ public override void _PhysicsProcess(double delta)
 {
+    if (sprite2D != null && sprite2D.Animation == EnumAnimationName.AttackHead.ToString())
+    {
+        return; // Skip movement processing during attack animation
+    }
     Vector2 velocity = Velocity;
 
     var instance = GameManager.GetInstance();
     var (activePlayer, inactivePlayer) = instance.GetActiveAndInactivePlayer();
-
-
 
     var cameraHandle = GetNode<CameraHandle>("CameraHandle");
     bool isThisPlayerActive = cameraHandle != null && cameraHandle.ActivePlayer == activePlayer;

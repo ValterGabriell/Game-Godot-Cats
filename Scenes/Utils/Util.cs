@@ -42,3 +42,4 @@ public static class Logger
         GD.PrintRich($"{timestamp}{origin}{formattedMsg}");
     }
 }
+

@@ -1,6 +1,5 @@
-[gd_scene load_steps=6 format=3 uid="uid://26rhsbmk2ted"]
+[gd_scene load_steps=5 format=3 uid="uid://26rhsbmk2ted"]
 
-[ext_resource type="PackedScene" uid="uid://bufw5v6235ukr" path="res://Scenes/Player/PlayerMyha.tscn" id="2_adqn2"]
 [ext_resource type="PackedScene" uid="uid://santyuhss8f8" path="res://Scenes/Phases/01/Phase01.tscn" id="2_yad00"]
 [ext_resource type="PackedScene" uid="uid://c7i56odqqtay0" path="res://Scenes/Player/PlayerKatrina.tscn" id="3_i6wub"]
 [ext_resource type="PackedScene" uid="uid://cehjy61rpbuwv" path="res://Scenes/DeathArea/DeathArea.tscn" id="5_a8if6"]
@@ -8,14 +7,19 @@
 
 [node name="MainGame" type="Node2D"]
 
+[node name="Guias" type="Node" parent="."]
+
+[node name="Label" type="Label" parent="Guias"]
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Para andar - WASD
+Para Trocar Personagem - TAB
+Para Atacar - NumPad 5"
+
 [node name="Players" type="Node" parent="."]
 
 [node name="CatKatrina" parent="Players" instance=ExtResource("3_i6wub")]
 position = Vector2(432, 372)
-scale = Vector2(3, 3)
-
-[node name="CatMyha" parent="Players" instance=ExtResource("2_adqn2")]
-position = Vector2(101, 384)
 scale = Vector2(3, 3)
 
 [node name="Managers" type="Node" parent="."]

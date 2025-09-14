@@ -1,0 +1,25 @@
+[gd_scene load_steps=4 format=3 uid="uid://sjh5x2uelsr0"]
+
+[ext_resource type="Texture2D" uid="uid://cvrdsjq2vq3o8" path="res://icon.svg" id="1_fmbjr"]
+[ext_resource type="Script" uid="uid://bm17sdtke337" path="res://Scenes/Enemies/Teste/EnemieTeste.cs" id="1_j1j3u"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jxknc"]
+size = Vector2(130, 123)
+
+[node name="Area2D" type="CharacterBody2D"]
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_j1j3u")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+texture_filter = 1
+texture_repeat = 1
+texture = ExtResource("1_fmbjr")
+offset = Vector2(1.13, 0.885)
+flip_h = true
+flip_v = true
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(1, -0.5)
+shape = SubResource("RectangleShape2D_jxknc")
+debug_color = Color(0.796078, 0.0431373, 0.117647, 0.419608)
