@@ -175,7 +175,7 @@ animations = [{
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_01wa6"]
-radius = 17.3974
+radius = 19.845
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w6x15"]
 radius = 26.0768
@@ -196,10 +196,12 @@ sprite2D = NodePath("AnimatedSprite")
 
 [node name="Codigos" type="Node" parent="CharacterBody2D"]
 
-[node name="Atack" type="Node" parent="CharacterBody2D/Codigos" node_paths=PackedStringArray("sprite2D", "headCollider")]
+[node name="Atack" type="Node" parent="CharacterBody2D/Codigos" node_paths=PackedStringArray("sprite2D", "headCollider", "raboCollider", "tapaCollider")]
 script = ExtResource("3_6owsu")
 sprite2D = NodePath("../../AnimatedSprite")
 headCollider = NodePath("../../AreaCollisionHead")
+raboCollider = NodePath("../../AreaCollisionRabo")
+tapaCollider = NodePath("../../AreaCollisionTapa")
 
 [node name="LabelsDebug" type="Control" parent="CharacterBody2D"]
 visible = false
@@ -255,8 +257,8 @@ animation = &"AttackHead"
 autoplay = "Idle"
 
 [node name="CollisionBody" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(0, -1)
-scale = Vector2(1.67356, 1.2914)
+position = Vector2(0, 7)
+scale = Vector2(1.674, 0.606)
 shape = SubResource("CircleShape2D_01wa6")
 
 [node name="AreaCollisionHead" type="Area2D" parent="CharacterBody2D"]
@@ -270,9 +272,27 @@ shape = SubResource("CircleShape2D_w6x15")
 disabled = true
 debug_color = Color(0.590966, 0, 0.0573893, 0.42)
 
-[node name="CollisionRabo" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(-21, -33.25)
+[node name="AreaCollisionRabo" type="Area2D" parent="CharacterBody2D"]
+collision_layer = 64
+collision_mask = 32
+monitoring = false
+
+[node name="CollisionRabo" type="CollisionShape2D" parent="CharacterBody2D/AreaCollisionRabo"]
+position = Vector2(-17, -34)
 shape = SubResource("RectangleShape2D_w6x15")
+disabled = true
+debug_color = Color(0.960784, 0.0901961, 0, 0.419608)
+
+[node name="AreaCollisionTapa" type="Area2D" parent="CharacterBody2D"]
+collision_layer = 64
+collision_mask = 32
+monitoring = false
+
+[node name="CollisionTapa" type="CollisionShape2D" parent="CharacterBody2D/AreaCollisionTapa"]
+position = Vector2(0, -28)
+shape = SubResource("RectangleShape2D_w6x15")
+disabled = true
+debug_color = Color(0.960784, 0.0901961, 0, 0.419608)
 
 [node name="CameraHandle" type="Node2D" parent="CharacterBody2D"]
 script = ExtResource("4_ektap")
@@ -280,3 +300,7 @@ script = ExtResource("4_ektap")
 [node name="CameraPlayer1" type="Camera2D" parent="CharacterBody2D/CameraHandle"]
 position = Vector2(0, 1)
 zoom = Vector2(0.5, 0.5)
+
+[connection signal="area_entered" from="CharacterBody2D/AreaCollisionHead" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_head_area_entered"]
+[connection signal="area_entered" from="CharacterBody2D/AreaCollisionRabo" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_rabo_area_entered"]
+[connection signal="area_entered" from="CharacterBody2D/AreaCollisionTapa" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_tapa_area_entered"]

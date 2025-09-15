@@ -1,5 +1,6 @@
 public enum EnumGroups
 {
     Player,
-    SavePoint
+    SavePoint,
+    Enemy
 }

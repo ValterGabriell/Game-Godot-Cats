@@ -19,7 +19,7 @@ Para Atacar - NumPad 5"
 [node name="Players" type="Node" parent="."]
 
 [node name="CatKatrina" parent="Players" instance=ExtResource("3_i6wub")]
-position = Vector2(432, 372)
+position = Vector2(1711, 424)
 scale = Vector2(3, 3)
 
 [node name="Managers" type="Node" parent="."]

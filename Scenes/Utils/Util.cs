@@ -39,7 +39,7 @@ public static class Logger
         if (underline) formattedMsg = $"[u]{formattedMsg}[/u]";
         formattedMsg = $"[color={color}]{formattedMsg}[/color]";
 
-        GD.PrintRich($"{timestamp}{origin}{formattedMsg}");
+        GD.PrintRich($"{origin}{formattedMsg}");
     }
 }
 
