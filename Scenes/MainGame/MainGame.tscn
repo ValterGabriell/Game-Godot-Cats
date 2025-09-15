@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://26rhsbmk2ted"]
 
+[ext_resource type="PackedScene" uid="uid://bufw5v6235ukr" path="res://Scenes/Player/Myha/PlayerMyha.tscn" id="1_adqn2"]
 [ext_resource type="PackedScene" uid="uid://santyuhss8f8" path="res://Scenes/Phases/01/Phase01.tscn" id="2_yad00"]
-[ext_resource type="PackedScene" uid="uid://c7i56odqqtay0" path="res://Scenes/Player/PlayerKatrina.tscn" id="3_i6wub"]
 [ext_resource type="PackedScene" uid="uid://cehjy61rpbuwv" path="res://Scenes/DeathArea/DeathArea.tscn" id="5_a8if6"]
 [ext_resource type="Script" uid="uid://vkkrhrvtp2md" path="res://Scenes/MainGame/GameManager.cs" id="5_adqn2"]
 
@@ -18,14 +18,15 @@ Para Atacar - NumPad 5"
 
 [node name="Players" type="Node" parent="."]
 
-[node name="CatKatrina" parent="Players" instance=ExtResource("3_i6wub")]
-position = Vector2(1711, 424)
-scale = Vector2(3, 3)
+[node name="CatMyha" parent="Players" instance=ExtResource("1_adqn2")]
+position = Vector2(1782, 311)
+IsActivePlayer = true
 
 [node name="Managers" type="Node" parent="."]
 script = ExtResource("5_adqn2")
 
 [node name="Phase01" parent="." instance=ExtResource("2_yad00")]
+position = Vector2(-85, -41)
 
 [node name="DeathArea" parent="." instance=ExtResource("5_a8if6")]
 position = Vector2(3728, 1617)

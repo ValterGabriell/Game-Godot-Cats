@@ -1,6 +1,7 @@
 public enum EnumAnimationName
 {
-    AttackHead,
-    AttackRabo,
+    KatrinaAttackHead,
+    KatrinaAttackRabo,
+    MyhaThrowsSomething,
     Idle
 }

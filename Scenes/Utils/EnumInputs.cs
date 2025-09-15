@@ -1,6 +1,6 @@
 public enum EnumInputs
 {
-    KatrinaHeadAttack,
-    KatrinaRaboAttack,
-    KatrinaTapaAttack,
+    FirstPlayerAttack,
+    SecondPlayerAttack,
+    ThirdPlayerAttack,
 }

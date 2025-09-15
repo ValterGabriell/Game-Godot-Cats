@@ -2,12 +2,12 @@ using Godot;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public partial class PlayerKatrinaAttack. : Node
+public partial class PlayerKatrinaAttack : Node
 {
     [Export]
     public AnimatedSprite2D sprite2D { get; set; }
 
-    private CharacterBody2D player;
+    private CharacterBody2D playerToMoveWhenAttack;
 
     [Export]
     public Area2D headCollider { get; set; }
@@ -27,7 +27,7 @@ public partial class PlayerKatrinaAttack. : Node
 
     public override void _Ready()
     {
-        player = GetParent().GetParent<CharacterBody2D>();
+        playerToMoveWhenAttack = GetParent().GetParent<CharacterBody2D>();
         sprite2D.AnimationFinished += OnAnimationFinished;
 
         headAttackStrategy = new KatrinaAttackStrategy(new KatrinaCabecadaAttack());
@@ -37,21 +37,21 @@ public partial class PlayerKatrinaAttack. : Node
 
     public override void _Process(double delta)
     {
-        if (Input.IsActionJustPressed(EnumInputs.KatrinaHeadAttack.ToString()) && !isAttacking)
+        if (Input.IsActionJustPressed(EnumInputs.FirstPlayerAttack.ToString()) && !isAttacking)
         {
-            headAttackStrategy.ExecuteAttack((float)delta, sprite2D, player, headCollider);
+            headAttackStrategy.ExecuteAttack((float)delta, sprite2D, playerToMoveWhenAttack, headCollider);
             return;
         }
 
-        if (Input.IsActionJustPressed(EnumInputs.KatrinaRaboAttack.ToString()) && !isAttacking)
+        if (Input.IsActionJustPressed(EnumInputs.SecondPlayerAttack.ToString()) && !isAttacking)
         {
-            raboAttackStrategy.ExecuteAttack((float)delta, sprite2D, player, raboCollider);
+            raboAttackStrategy.ExecuteAttack((float)delta, sprite2D, playerToMoveWhenAttack, raboCollider);
             return;
         }
 
-        if (Input.IsActionJustPressed(EnumInputs.KatrinaTapaAttack.ToString()) && !isAttacking)
+        if (Input.IsActionJustPressed(EnumInputs.ThirdPlayerAttack.ToString()) && !isAttacking)
         {
-            tapaAttackStrategy.ExecuteAttack((float)delta, sprite2D, player, tapaCollider);
+            tapaAttackStrategy.ExecuteAttack((float)delta, sprite2D, playerToMoveWhenAttack, tapaCollider);
             return;
         }
     }
@@ -98,8 +98,8 @@ public partial class PlayerKatrinaAttack. : Node
 
     private void AnimateAttack(float delta)
     {
-        sprite2D.Play(EnumAnimationName.AttackHead.ToString());
-        player.Position += new Vector2(500, 0) * delta;
+        sprite2D.Play(EnumAnimationName.KatrinaAttackHead.ToString());
+        playerToMoveWhenAttack.Position += new Vector2(500, 0) * delta;
     }
 
 
@@ -107,7 +107,7 @@ public partial class PlayerKatrinaAttack. : Node
     private void OnAnimationFinished()
     {
 
-        if (sprite2D.Animation == EnumAnimationName.AttackHead.ToString())
+        if (sprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString())
         {
             sprite2D.Play(EnumAnimationName.Idle.ToString());
             DeactiveCollider(nomeCollider: "CollisionHead", area2DCollider: headCollider);

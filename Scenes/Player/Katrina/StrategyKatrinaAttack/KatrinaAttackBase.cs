@@ -11,7 +11,7 @@ public class KatrinaAttackBase
 
     public void AnimateAttack(float delta, AnimatedSprite2D animatedsprite2D, Node2D player)
     {
-        animatedsprite2D.Play(EnumAnimationName.AttackHead.ToString());
+        animatedsprite2D.Play(EnumAnimationName.KatrinaAttackHead.ToString());
         player.Position += new Vector2(500, 0) * delta;
     }
 

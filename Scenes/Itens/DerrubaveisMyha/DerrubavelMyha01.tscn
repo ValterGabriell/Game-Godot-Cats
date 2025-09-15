@@ -1,0 +1,19 @@
+[gd_scene load_steps=3 format=3 uid="uid://djc374sy1i112"]
+
+[ext_resource type="Texture2D" uid="uid://bafyowtjj01df" path="res://Assets/Itens/DerrubaveisMyha/lata-png.png" id="1_1u1ty"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_0f64a"]
+
+[node name="DerrubavelMyha01" type="Node2D"]
+
+[node name="RigidBody2D" type="RigidBody2D" parent="." groups=["ItensThrowable"]]
+collision_layer = 128
+collision_mask = 35
+
+[node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
+position = Vector2(2.38419e-07, -2.38419e-07)
+scale = Vector2(0.0222222, 0.0347222)
+texture = ExtResource("1_1u1ty")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
+shape = SubResource("RectangleShape2D_0f64a")

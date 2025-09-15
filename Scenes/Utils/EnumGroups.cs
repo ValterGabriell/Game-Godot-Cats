@@ -2,5 +2,6 @@ public enum EnumGroups
 {
     Player,
     SavePoint,
-    Enemy
+    Enemy,
+    ItensThrowable
 }

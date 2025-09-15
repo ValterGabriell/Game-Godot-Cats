@@ -35,7 +35,7 @@ public partial class PlayerMove : CharacterBody2D
 
  public override void _PhysicsProcess(double delta)
 {
-    if (sprite2D != null && sprite2D.Animation == EnumAnimationName.AttackHead.ToString())
+    if (sprite2D != null && sprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString())
     {
         return; // Skip movement processing during attack animation
     }

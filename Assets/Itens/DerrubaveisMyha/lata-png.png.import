@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://box5gq6rppw4r"
-path="res://.godot/imported/black cat with text.png-6b351c9a8e84890c0165d8ca1cb2329e.ctex"
+uid="uid://bafyowtjj01df"
+path="res://.godot/imported/lata-png.png-a9ef5a4dd97c4c9ec61675c0b9974b93.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cats-ItchIO/black cat with text.png"
-dest_files=["res://.godot/imported/black cat with text.png-6b351c9a8e84890c0165d8ca1cb2329e.ctex"]
+source_file="res://Assets/Itens/DerrubaveisMyha/lata-png.png"
+dest_files=["res://.godot/imported/lata-png.png-a9ef5a4dd97c4c9ec61675c0b9974b93.ctex"]
 
 [params]
 

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cbeme123n8v1u"
-path="res://.godot/imported/white cat with text.png-eed759fb35c8b5c2e61fbebeee643bed.ctex"
+uid="uid://l16xg0rd2isg"
+path="res://.godot/imported/Myha-LB-02-Idle.png-d1a30f79358abf4f8f3b0f68f1b75d3e.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Assets/Cats-ItchIO/white cat with text.png"
-dest_files=["res://.godot/imported/white cat with text.png-eed759fb35c8b5c2e61fbebeee643bed.ctex"]
+source_file="res://Assets/Myha/Myha-LB-02-Idle.png"
+dest_files=["res://.godot/imported/Myha-LB-02-Idle.png-d1a30f79358abf4f8f3b0f68f1b75d3e.ctex"]
 
 [params]
 

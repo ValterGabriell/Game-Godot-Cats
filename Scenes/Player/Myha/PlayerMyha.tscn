@@ -1,88 +1,70 @@
-[gd_scene load_steps=19 format=3 uid="uid://bufw5v6235ukr"]
+[gd_scene load_steps=24 format=3 uid="uid://bufw5v6235ukr"]
 
 [ext_resource type="Script" uid="uid://4wybkbpiv1" path="res://Scenes/Player/PlayerConfig.cs" id="1_rns3i"]
 [ext_resource type="Script" uid="uid://c6sgdy2684jww" path="res://Scenes/Player/PlayerMove.cs" id="1_xjst2"]
-[ext_resource type="Texture2D" uid="uid://cbeme123n8v1u" path="res://Assets/Cats-ItchIO/white cat with text.png" id="2_ivywa"]
-[ext_resource type="Texture2D" uid="uid://box5gq6rppw4r" path="res://Assets/Cats-ItchIO/black cat with text.png" id="2_rns3i"]
+[ext_resource type="Texture2D" uid="uid://l16xg0rd2isg" path="res://Assets/Myha/Myha-LB-02-Idle.png" id="3_ivywa"]
+[ext_resource type="Script" uid="uid://b7cfelquqedu6" path="res://Scenes/Player/Myha/MyhaAttack.cs" id="3_xja7h"]
+[ext_resource type="Texture2D" uid="uid://cpdjaacq52rwq" path="res://Assets/Myha/Myha-LB-02-JogandoAlgoDoAlto.png" id="4_iflpb"]
 [ext_resource type="Script" uid="uid://dtj28ewyi1pyi" path="res://Scenes/Player/CameraHandle.cs" id="4_ivywa"]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_xjst2"]
-radius = 11.353
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rbpft"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(310, 320, 62, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_nbcm5"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(372, 320, 62, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_dk8t8"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(434, 320, 62, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xq6bn"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(496, 320, 62, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sx8pv"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(558, 320, 62, 64)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_6ug4f"]
-atlas = ExtResource("2_rns3i")
-region = Rect2(620, 320, 62, 64)
-
 [sub_resource type="AtlasTexture" id="AtlasTexture_iflpb"]
-atlas = ExtResource("2_ivywa")
-region = Rect2(297, 640, 68, 64)
+atlas = ExtResource("3_ivywa")
+region = Rect2(0, 0, 51, 59)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_f3esm"]
-atlas = ExtResource("2_ivywa")
-region = Rect2(365, 640, 68, 64)
+atlas = ExtResource("3_ivywa")
+region = Rect2(51, 0, 51, 59)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_shkub"]
-atlas = ExtResource("2_ivywa")
-region = Rect2(433, 640, 68, 64)
+atlas = ExtResource("3_ivywa")
+region = Rect2(102, 0, 51, 59)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_27ck4"]
-atlas = ExtResource("2_ivywa")
-region = Rect2(501, 640, 68, 64)
+atlas = ExtResource("3_ivywa")
+region = Rect2(153, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rbpft"]
+atlas = ExtResource("3_ivywa")
+region = Rect2(204, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nbcm5"]
+atlas = ExtResource("3_ivywa")
+region = Rect2(255, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dk8t8"]
+atlas = ExtResource("3_ivywa")
+region = Rect2(306, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xq6bn"]
+atlas = ExtResource("3_ivywa")
+region = Rect2(357, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx8pv"]
+atlas = ExtResource("3_ivywa")
+region = Rect2(408, 0, 51, 59)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_6ug4f"]
+atlas = ExtResource("4_iflpb")
+region = Rect2(0, 0, 53, 48)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_12mos"]
-atlas = ExtResource("2_ivywa")
-region = Rect2(569, 640, 68, 64)
+atlas = ExtResource("4_iflpb")
+region = Rect2(53, 0, 53, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u51cs"]
+atlas = ExtResource("4_iflpb")
+region = Rect2(106, 0, 53, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lnkdo"]
+atlas = ExtResource("4_iflpb")
+region = Rect2(159, 0, 53, 48)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_baqfd"]
+atlas = ExtResource("4_iflpb")
+region = Rect2(212, 0, 53, 48)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_xjst2"]
 animations = [{
-"frames": [],
-"loop": true,
-"name": &"Idle",
-"speed": 5.0
-}, {
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rbpft")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_nbcm5")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_dk8t8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xq6bn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sx8pv")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_6ug4f")
-}],
-"loop": true,
-"name": &"LeftWalk",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_iflpb")
@@ -97,12 +79,50 @@ animations = [{
 "texture": SubResource("AtlasTexture_27ck4")
 }, {
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_12mos")
+"texture": SubResource("AtlasTexture_rbpft")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nbcm5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dk8t8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xq6bn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx8pv")
 }],
 "loop": true,
-"name": &"RunLeft",
+"name": &"Idle",
 "speed": 5.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_6ug4f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_12mos")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u51cs")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lnkdo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_baqfd")
+}],
+"loop": false,
+"name": &"MyhaThrowsSomething",
+"speed": 11.0
 }]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xjst2"]
+radius = 11.353
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_xja7h"]
+radius = 7.0
 
 [node name="CatMyha" type="Node2D" node_paths=PackedStringArray("PlayerCamera") groups=["PlayerConfigs"]]
 script = ExtResource("1_rns3i")
@@ -113,6 +133,12 @@ PlayerCamera = NodePath("CharacterBody2D/CameraHandle/CameraPlayer2")
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_xjst2")
+Speed = 450.0
+
+[node name="Attack" type="Node" parent="CharacterBody2D" node_paths=PackedStringArray("sprite2D", "derrubaAlgoCollider")]
+script = ExtResource("3_xja7h")
+sprite2D = NodePath("../AnimatedSprite2")
+derrubaAlgoCollider = NodePath("../PataDerrubaAlgoAttack")
 
 [node name="LabelsDebug" type="Control" parent="CharacterBody2D"]
 visible = false
@@ -160,17 +186,16 @@ Se a tecla 2 for pressionada, a força do pulo (JumpVelocity) diminui em 50.
 Se a tecla 0 for pressionada, a gravidade (Gravity) aumenta em 50.
 Se a tecla 5 for pressionada, a gravidade (Gravity) diminui em 50."
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(-5, 1)
-scale = Vector2(1.67356, 1.2914)
-shape = SubResource("CircleShape2D_xjst2")
-
 [node name="AnimatedSprite2" type="AnimatedSprite2D" parent="CharacterBody2D"]
 texture_filter = 1
-position = Vector2(-3, 0)
 sprite_frames = SubResource("SpriteFrames_xjst2")
-animation = &"RunLeft"
-autoplay = "RunLeft"
+animation = &"MyhaThrowsSomething"
+autoplay = "Idle"
+
+[node name="PrincipalCollisionShape" type="CollisionShape2D" parent="CharacterBody2D"]
+position = Vector2(-5, 4)
+scale = Vector2(1.829, 1.281)
+shape = SubResource("CircleShape2D_xjst2")
 
 [node name="CameraHandle" type="Node2D" parent="CharacterBody2D"]
 script = ExtResource("4_ivywa")
@@ -178,3 +203,13 @@ script = ExtResource("4_ivywa")
 [node name="CameraPlayer2" type="Camera2D" parent="CharacterBody2D/CameraHandle"]
 visible = false
 position = Vector2(0, 1)
+zoom = Vector2(2, 2)
+
+[node name="PataDerrubaAlgoAttack" type="Area2D" parent="CharacterBody2D"]
+monitoring = false
+
+[node name="DerrubaAlgoCollider" type="CollisionShape2D" parent="CharacterBody2D/PataDerrubaAlgoAttack"]
+position = Vector2(22, 19)
+shape = SubResource("CircleShape2D_xja7h")
+disabled = true
+debug_color = Color(0.937945, 1.37654e-05, 0.625809, 0.42)
