@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://4wybkbpiv1" path="res://Scenes/Player/PlayerConfig.cs" id="1_bwq2o"]
 [ext_resource type="Script" uid="uid://c6sgdy2684jww" path="res://Scenes/Player/PlayerMove.cs" id="1_j51jf"]
 [ext_resource type="Texture2D" uid="uid://cdrgyasuuh0d3" path="res://Assets/Katrina/ATACK/HEAD/Katrina-LB-AtaqueCabecada-Sheet.png" id="3_01d60"]
-[ext_resource type="Script" uid="uid://wanqqphh3a2f" path="res://Scenes/Player/PlayerAttack.cs" id="3_6owsu"]
+[ext_resource type="Script" uid="uid://wanqqphh3a2f" path="res://Scenes/Player/PlayerKatrinaAttack.cs" id="3_6owsu"]
 [ext_resource type="Texture2D" uid="uid://ds15w03gm6754" path="res://Assets/Katrina/IDLE/Katrina-Idle-02.png" id="3_w6x15"]
 [ext_resource type="Script" uid="uid://dtj28ewyi1pyi" path="res://Scenes/Player/CameraHandle.cs" id="4_ektap"]
 

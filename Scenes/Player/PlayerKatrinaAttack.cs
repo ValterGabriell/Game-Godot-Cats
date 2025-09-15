@@ -2,7 +2,7 @@ using Godot;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
-public partial class PlayerAttack : Node
+public partial class PlayerKatrinaAttack. : Node
 {
     [Export]
     public AnimatedSprite2D sprite2D { get; set; }
