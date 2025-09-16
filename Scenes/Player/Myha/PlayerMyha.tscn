@@ -135,10 +135,10 @@ collision_mask = 13
 script = ExtResource("1_xjst2")
 Speed = 450.0
 
-[node name="Attack" type="Node" parent="CharacterBody2D" node_paths=PackedStringArray("sprite2D", "derrubaAlgoCollider")]
+[node name="Attack" type="Node" parent="CharacterBody2D" node_paths=PackedStringArray("sprite2D", "throwCollider")]
 script = ExtResource("3_xja7h")
 sprite2D = NodePath("../AnimatedSprite2")
-derrubaAlgoCollider = NodePath("../PataDerrubaAlgoAttack")
+throwCollider = NodePath("../PataDerrubaAlgoAttack")
 
 [node name="LabelsDebug" type="Control" parent="CharacterBody2D"]
 visible = false
@@ -206,9 +206,11 @@ position = Vector2(0, 1)
 zoom = Vector2(2, 2)
 
 [node name="PataDerrubaAlgoAttack" type="Area2D" parent="CharacterBody2D"]
+collision_layer = 256
+collision_mask = 128
 monitoring = false
 
-[node name="DerrubaAlgoCollider" type="CollisionShape2D" parent="CharacterBody2D/PataDerrubaAlgoAttack"]
+[node name="throwableItemCollider" type="CollisionShape2D" parent="CharacterBody2D/PataDerrubaAlgoAttack"]
 position = Vector2(22, 19)
 shape = SubResource("CircleShape2D_xja7h")
 disabled = true

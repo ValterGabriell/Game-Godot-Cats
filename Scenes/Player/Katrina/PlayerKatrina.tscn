@@ -301,6 +301,6 @@ script = ExtResource("4_ektap")
 position = Vector2(0, 1)
 zoom = Vector2(0.5, 0.5)
 
-[connection signal="area_entered" from="CharacterBody2D/AreaCollisionHead" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_head_area_entered"]
-[connection signal="area_entered" from="CharacterBody2D/AreaCollisionRabo" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_rabo_area_entered"]
-[connection signal="area_entered" from="CharacterBody2D/AreaCollisionTapa" to="CharacterBody2D/Codigos/Atack" method="_on_area_collision_tapa_area_entered"]
+[connection signal="body_entered" from="CharacterBody2D/AreaCollisionHead" to="." method="_on_area_collision_head_area_entered"]
+[connection signal="body_entered" from="CharacterBody2D/AreaCollisionRabo" to="." method="_on_area_collision_rabo_area_entered"]
+[connection signal="body_entered" from="CharacterBody2D/AreaCollisionTapa" to="." method="_on_area_collision_tapa_area_entered"]

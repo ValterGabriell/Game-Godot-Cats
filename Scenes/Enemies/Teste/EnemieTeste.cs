@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class EnemieTeste : Area2D
+public partial class EnemieTeste : RigidBody2D
 {
     private int health = 40;
     public void ReceiveDamage(float damage)
@@ -13,5 +13,10 @@ public partial class EnemieTeste : Area2D
             Logger.LogMessage("Enemy defeated!");
             QueueFree();
         }
+    }
+
+    public void KillEnemy()
+    {
+        QueueFree();
     }
 }

@@ -57,7 +57,8 @@ ThirdPlayerAttack={
 2d_physics/layer_5="head_attack_area"
 2d_physics/layer_6="enemies"
 2d_physics/layer_7="rabo_attack_area"
-2d_physics/layer_8="derrubaveisMyhaLata"
+2d_physics/layer_8="throwable_myha_item"
+2d_physics/layer_9="attack_throwable_myha_area"
 
 [rendering]
 

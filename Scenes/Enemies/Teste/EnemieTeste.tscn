@@ -70,9 +70,9 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jxknc"]
 size = Vector2(43.5, 31.5)
 
-[node name="Area2D" type="Area2D" groups=["Enemy"]]
+[node name="Area2D" type="RigidBody2D" groups=["Enemy"]]
 collision_layer = 32
-collision_mask = 19
+collision_mask = 147
 script = ExtResource("1_j1j3u")
 
 [node name="AnimamedSprite2D" type="AnimatedSprite2D" parent="."]

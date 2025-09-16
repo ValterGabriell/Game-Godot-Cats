@@ -57,26 +57,26 @@ public partial class PlayerKatrinaAttack : Node
     }
 
     /* Verifica colisão após a animação de ataque */
-    public void _on_area_collision_head_area_entered(Area2D area)
+    public void _on_area_collision_head_area_entered(Node2D area)
     {
         Logger.LogMessage("Head collider hit!");
         ProcessAttackOnEnemy(area, damage: 10);
     }
 
-    public void _on_area_collision_rabo_area_entered(Area2D area)
+    public void _on_area_collision_rabo_area_entered(Node2D area)
     {
         Logger.LogMessage("Rabo collider hit!");
         ProcessAttackOnEnemy(area, damage: 20);
     }
 
-    public void _on_area_collision_tapa_area_entered(Area2D area)
+    public void _on_area_collision_tapa_area_entered(Node2D area)
     {
         Logger.LogMessage("Tapa collider hit!");
         ProcessAttackOnEnemy(area, damage: 5);
     }
 
 
-    private static void ProcessAttackOnEnemy(Area2D area, float damage)
+    private static void ProcessAttackOnEnemy(Node2D area, float damage)
     {
         if (area.IsInGroup(EnumGroups.Enemy.ToString()))
         {

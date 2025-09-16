@@ -1,14 +1,19 @@
-[gd_scene load_steps=3 format=3 uid="uid://djc374sy1i112"]
+[gd_scene load_steps=5 format=3 uid="uid://djc374sy1i112"]
 
 [ext_resource type="Texture2D" uid="uid://bafyowtjj01df" path="res://Assets/Itens/DerrubaveisMyha/lata-png.png" id="1_1u1ty"]
+[ext_resource type="Script" uid="uid://b0tg68wkapb57" path="res://Scenes/Itens/DerrubaveisMyha/ThrowableItemAttack.cs" id="1_bpfai"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_0f64a"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_bpfai"]
+radius = 13.0384
 
 [node name="DerrubavelMyha01" type="Node2D"]
 
 [node name="RigidBody2D" type="RigidBody2D" parent="." groups=["ItensThrowable"]]
 collision_layer = 128
-collision_mask = 35
+collision_mask = 291
+script = ExtResource("1_bpfai")
 
 [node name="Sprite2D" type="Sprite2D" parent="RigidBody2D"]
 position = Vector2(2.38419e-07, -2.38419e-07)
@@ -17,3 +22,12 @@ texture = ExtResource("1_1u1ty")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D"]
 shape = SubResource("RectangleShape2D_0f64a")
+
+[node name="MakeDamageEnemyArea" type="Area2D" parent="RigidBody2D"]
+collision_layer = 128
+collision_mask = 32
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RigidBody2D/MakeDamageEnemyArea"]
+shape = SubResource("CircleShape2D_bpfai")
+
+[connection signal="body_entered" from="RigidBody2D/MakeDamageEnemyArea" to="RigidBody2D" method="_on_make_damage_enemy_area_body_entered"]
