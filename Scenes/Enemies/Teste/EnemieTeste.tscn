@@ -71,12 +71,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jxknc"]
 size = Vector2(43.5, 31.5)
 
-[node name="Body" type="CharacterBody2D" node_paths=PackedStringArray("Agent") groups=["Enemy"]]
+[node name="Body" type="CharacterBody2D" node_paths=PackedStringArray("Agent", "RayCast", "Timer") groups=["Enemy"]]
 collision_layer = 32
 collision_mask = 147
 script = ExtResource("3_xj8b8")
 SPEED = 500
 Agent = NodePath("NavAgent")
+RayCast = NodePath("AnimamedSprite2D/RayCast2D")
+Timer = NodePath("NavTimer")
 
 [node name="ReceiveDagame" type="Node" parent="."]
 script = ExtResource("1_j1j3u")
@@ -88,6 +90,9 @@ sprite_frames = SubResource("SpriteFrames_fmbjr")
 animation = &"EnemyRatWalk"
 autoplay = "EnemyRatWalk"
 frame_progress = 0.866901
+
+[node name="RayCast2D" type="RayCast2D" parent="AnimamedSprite2D"]
+target_position = Vector2(-125, 0)
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 7)
