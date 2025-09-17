@@ -1,11 +1,14 @@
-[gd_scene load_steps=5 format=3 uid="uid://26rhsbmk2ted"]
+[gd_scene load_steps=7 format=3 uid="uid://26rhsbmk2ted"]
 
 [ext_resource type="PackedScene" uid="uid://bufw5v6235ukr" path="res://Scenes/Player/Myha/PlayerMyha.tscn" id="1_adqn2"]
+[ext_resource type="PackedScene" uid="uid://c7i56odqqtay0" path="res://Scenes/Player/Katrina/PlayerKatrina.tscn" id="2_adqn2"]
 [ext_resource type="PackedScene" uid="uid://santyuhss8f8" path="res://Scenes/Phases/01/Phase01.tscn" id="2_yad00"]
 [ext_resource type="PackedScene" uid="uid://cehjy61rpbuwv" path="res://Scenes/DeathArea/DeathArea.tscn" id="5_a8if6"]
 [ext_resource type="Script" uid="uid://vkkrhrvtp2md" path="res://Scenes/MainGame/GameManager.cs" id="5_adqn2"]
+[ext_resource type="Script" uid="uid://dtj28ewyi1pyi" path="res://Scenes/Player/CameraHandle.cs" id="6_a8if6"]
 
 [node name="MainGame" type="Node2D"]
+script = ExtResource("5_adqn2")
 
 [node name="Guias" type="Node" parent="."]
 
@@ -18,15 +21,26 @@ Para Atacar - NumPad 5"
 
 [node name="Players" type="Node" parent="."]
 
-[node name="CatMyha" parent="Players" instance=ExtResource("1_adqn2")]
-position = Vector2(127, -64)
-IsActivePlayer = true
+[node name="CatKatrina" parent="Players" node_paths=PackedStringArray("CameraHandle") instance=ExtResource("2_adqn2")]
+position = Vector2(103, -89)
+CameraHandle = NodePath("../../Camera")
+
+[node name="CatMyha" parent="Players" node_paths=PackedStringArray("CameraHandle") instance=ExtResource("1_adqn2")]
+position = Vector2(-2, -101)
+CameraHandle = NodePath("../../Camera")
 
 [node name="Managers" type="Node" parent="."]
 script = ExtResource("5_adqn2")
 
 [node name="Phase01" parent="." instance=ExtResource("2_yad00")]
-position = Vector2(-85, -41)
+position = Vector2(-73, -56)
 
 [node name="DeathArea" parent="." instance=ExtResource("5_a8if6")]
 position = Vector2(3728, 1617)
+
+[node name="Camera" type="Node2D" parent="." node_paths=PackedStringArray("CurrentCamera")]
+script = ExtResource("6_a8if6")
+CurrentCamera = NodePath("Camera2D")
+
+[node name="Camera2D" type="Camera2D" parent="Camera"]
+zoom = Vector2(1.5, 1.5)

@@ -1,20 +1,26 @@
 using Godot;
 using System;
+using static PlayerConfig;
 
 public partial class CameraHandle : Node2D
 {
-    public Camera2D PlayerCamera { get; set; }
-    public BasePlayer ActivePlayer { get; set; } = null;
-    
-
+    [Export]
+    private Camera2D CurrentCamera { get; set; }
+    private GameManager GameManager => GameManager.GetInstance();
 
     public override void _PhysicsProcess(double delta)
     {
-        // ATUALIZAR POSIÇÃO DA CÂMERA MANUALMENTE
-        if (PlayerCamera != null && PlayerCamera.Enabled)
+        var activePlayer = GameManager?.GetActiveAndInactivePlayer().activePlayer;
+        if (activePlayer != null)
         {
-            PlayerCamera.GlobalPosition = this.GlobalPosition;
+            this.GlobalPosition = activePlayer.GetCurrentPosition();
+        }
+
+        if (CurrentCamera != null && CurrentCamera.Enabled)
+        {
+            // Centraliza a câmera na posição do jogador
+            CurrentCamera.GlobalPosition = this.GlobalPosition;
+            CurrentCamera.Offset = Vector2.Zero; // Garante que não há deslocamento
         }
     }
-    
 }

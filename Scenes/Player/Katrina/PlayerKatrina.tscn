@@ -1,19 +1,10 @@
-[gd_scene load_steps=33 format=3 uid="uid://c7i56odqqtay0"]
+[gd_scene load_steps=32 format=3 uid="uid://c7i56odqqtay0"]
 
 [ext_resource type="Script" uid="uid://4wybkbpiv1" path="res://Scenes/Player/PlayerConfig.cs" id="1_bwq2o"]
 [ext_resource type="Script" uid="uid://c6sgdy2684jww" path="res://Scenes/Player/PlayerMove.cs" id="1_j51jf"]
 [ext_resource type="Texture2D" uid="uid://cdrgyasuuh0d3" path="res://Assets/Katrina/ATACK/HEAD/Katrina-LB-AtaqueCabecada-Sheet.png" id="3_01d60"]
 [ext_resource type="Script" uid="uid://wanqqphh3a2f" path="res://Scenes/Player/Katrina/PlayerKatrinaAttack.cs" id="3_6owsu"]
 [ext_resource type="Texture2D" uid="uid://ds15w03gm6754" path="res://Assets/Katrina/IDLE/Katrina-Idle-02.png" id="3_w6x15"]
-[ext_resource type="Script" uid="uid://dtj28ewyi1pyi" path="res://Scenes/Player/CameraHandle.cs" id="4_ektap"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ycg3e"]
-atlas = ExtResource("3_01d60")
-region = Rect2(0, 0, 85, 68)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_rg263"]
-atlas = ExtResource("3_01d60")
-region = Rect2(85, 0, 85, 68)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_01d60"]
 atlas = ExtResource("3_w6x15")
@@ -95,19 +86,16 @@ region = Rect2(1440, 0, 80, 71)
 atlas = ExtResource("3_w6x15")
 region = Rect2(1520, 0, 80, 71)
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_ycg3e"]
+atlas = ExtResource("3_01d60")
+region = Rect2(0, 0, 85, 68)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rg263"]
+atlas = ExtResource("3_01d60")
+region = Rect2(85, 0, 85, 68)
+
 [sub_resource type="SpriteFrames" id="SpriteFrames_j51jf"]
 animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ycg3e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_rg263")
-}],
-"loop": false,
-"name": &"AttackHead",
-"speed": 5.0
-}, {
 "frames": [{
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_01d60")
@@ -172,6 +160,17 @@ animations = [{
 "loop": true,
 "name": &"Idle",
 "speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ycg3e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rg263")
+}],
+"loop": false,
+"name": &"KatrinaAttackHead",
+"speed": 5.0
 }]
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_01wa6"]
@@ -183,16 +182,18 @@ radius = 26.0768
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6x15"]
 size = Vector2(8, 30.5)
 
-[node name="CatKatrina" type="Node2D" node_paths=PackedStringArray("PlayerCamera") groups=["PlayerConfigs"]]
+[node name="CatKatrina" type="Node2D" node_paths=PackedStringArray("PlayerCamera", "CameraHandle") groups=["PlayerConfigs"]]
 script = ExtResource("1_bwq2o")
 IsActivePlayer = true
-PlayerCamera = NodePath("CharacterBody2D/CameraHandle/CameraPlayer1")
+PlayerCamera = NodePath("")
+CameraHandle = NodePath("")
 
-[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("sprite2D")]
+[node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("AnimatedSprite2D", "PlayerConfig")]
 collision_layer = 2
 collision_mask = 13
 script = ExtResource("1_j51jf")
-sprite2D = NodePath("AnimatedSprite")
+AnimatedSprite2D = NodePath("AnimatedSprite")
+PlayerConfig = NodePath("..")
 
 [node name="Codigos" type="Node" parent="CharacterBody2D"]
 
@@ -253,7 +254,7 @@ Se a tecla 5 for pressionada, a gravidade (Gravity) diminui em 50."
 texture_filter = 1
 position = Vector2(4, -15)
 sprite_frames = SubResource("SpriteFrames_j51jf")
-animation = &"AttackHead"
+animation = &"KatrinaAttackHead"
 autoplay = "Idle"
 
 [node name="CollisionBody" type="CollisionShape2D" parent="CharacterBody2D"]
@@ -293,13 +294,6 @@ position = Vector2(0, -28)
 shape = SubResource("RectangleShape2D_w6x15")
 disabled = true
 debug_color = Color(0.960784, 0.0901961, 0, 0.419608)
-
-[node name="CameraHandle" type="Node2D" parent="CharacterBody2D"]
-script = ExtResource("4_ektap")
-
-[node name="CameraPlayer1" type="Camera2D" parent="CharacterBody2D/CameraHandle"]
-position = Vector2(0, 1)
-zoom = Vector2(0.5, 0.5)
 
 [connection signal="body_entered" from="CharacterBody2D/AreaCollisionHead" to="." method="_on_area_collision_head_area_entered"]
 [connection signal="body_entered" from="CharacterBody2D/AreaCollisionRabo" to="." method="_on_area_collision_rabo_area_entered"]

@@ -1,6 +1,7 @@
 using Godot;
 using NovoProjetodeJogo.Scenes.Utils;
 using System;
+using System.Linq;
 
 public partial class PlayerConfig : Node2D
 {
@@ -11,10 +12,16 @@ public partial class PlayerConfig : Node2D
     public EnumCharacter EnumCharacter { get; set; }
 
     [Export]
-    public Camera2D PlayerCamera { get; set; }
+    public CameraHandle CameraHandle { get; set; }
+
+    public PlayerState PlayerState { get; set; } = PlayerState.Idle;
+    public Vector2 LastPlayerPosition { get; set; }
+    public Vector2 CurrentPlayerPosition { get; set; }
+    public int Vida { get; set; } = 100;
 
     private CharacterBody2D characterBody2D;
 
+    private GameManager GameManager;
 
     private bool IsKeyPressed { get; set; } = false;
 
@@ -23,65 +30,38 @@ public partial class PlayerConfig : Node2D
         CallDeferred(nameof(ConfigurePlayer));
     }
 
-    private void ConfigurePlayer()
-    {       
-             var instance = GameManager.GetInstance();
-             var player = new BasePlayer(PlayerState.Idle, this.Position, EnumCharacter, isActivePlayer: IsActivePlayer);
-              instance.SetActivePlayer(player);
-
-
-            var nodeCamera = GetNode<Node2D>("CharacterBody2D/CameraHandle");
-            CameraHandle cameraHandle = nodeCamera as CameraHandle;
-
-            if (cameraHandle != null)
-            {
-                if (IsActivePlayer)
-                {
-                    cameraHandle.ActivePlayer = player;
-                }
-                cameraHandle.PlayerCamera = PlayerCamera;
-     
-                // Configurar câmera baseado no estado ativo
-            if (PlayerCamera != null)
-            {
-                PlayerCamera.Enabled = IsActivePlayer;
-            }
-            }
-    }
-public override void _Process(double delta)
-{
-    // Apenas um player precisa detectar a tecla (por exemplo, sempre o primeiro da lista)
-    var allPlayerConfigs = GetTree().GetNodesInGroup("PlayerConfigs");
-    if (allPlayerConfigs.Count > 0 && allPlayerConfigs[0] == this)
+    public override void _Ready()
     {
-        if (Input.IsActionJustPressed("ui_focus_next"))
+        GameManager = GameManager.GetInstance();
+    }
+
+    private void ConfigurePlayer()
+    {
+        GameManager.SetActiveAndInactivePlayers();
+
+    }
+    public override void _Process(double delta)
+    {
+        // Apenas um player precisa detectar a tecla (por exemplo, sempre o primeiro da lista)
+        var allPlayerConfigs = GetTree().GetNodesInGroup("PlayerConfigs");
+        if (allPlayerConfigs.Count > 0 && allPlayerConfigs[0] == this)
         {
-            SwitchActivePlayer();
+            if (Input.IsActionJustPressed("ui_focus_next"))
+            {
+                GameManager.SetActiveAndInactivePlayers(); // Troca os papéis               
+
+            }
         }
     }
-}
 
-private void SwitchActivePlayer()
-{
-    var allPlayerConfigs = GetTree().GetNodesInGroup("PlayerConfigs");
-    PlayerConfig currentActivePlayer = null;
-    PlayerConfig currentInactivePlayer = null;
-    
-    foreach (PlayerConfig player in allPlayerConfigs)
+
+    public void UpdateCurrentPlayerPosition(Vector2 position)
     {
-        if (player.IsActivePlayer)
-            currentActivePlayer = player;
-        else
-            currentInactivePlayer = player;
+        this.CurrentPlayerPosition = position;
     }
-    
-    if (currentActivePlayer != null && currentInactivePlayer != null)
+
+    public Vector2 GetCurrentPosition()
     {
-        currentActivePlayer.IsActivePlayer = false;
-        currentInactivePlayer.IsActivePlayer = true;
-        
-        currentActivePlayer.ConfigurePlayer();
-        currentInactivePlayer.ConfigurePlayer();
+        return this.CurrentPlayerPosition;
     }
-}
 }

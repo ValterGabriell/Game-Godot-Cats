@@ -11,21 +11,26 @@ enum EnumForceDirection
 public partial class MyhaAttack : Node
 {
     [Export]
-    public AnimatedSprite2D sprite2D { get; set; }
+    public AnimatedSprite2D AnimatedSprite2D { get; set; }
 
     [Export]
-    public Area2D throwCollider { get; set; }
+    public Area2D ThrowCollider { get; set; }
+
+    private const EnumCharacter currentCharacter = EnumCharacter.Myha;
 
     private bool isAttacking = false;
 
     private float forceAttackThrow = 0;
-    private EnumForceDirection forceDirection = EnumForceDirection.Increase; 
+    private EnumForceDirection forceDirection = EnumForceDirection.Increase;
     private const float MAX_FORCE_ATTACK_THROW = 100;
+
+    private GameManager GameInstance;
 
     public override void _Ready()
     {
-        sprite2D.AnimationFinished += OnAnimationFinished;
-        throwCollider.BodyEntered += OnAttackCollider;
+        AnimatedSprite2D.AnimationFinished += OnAnimationFinished;
+        ThrowCollider.BodyEntered += OnAttackCollider;
+        GameInstance = GameManager.GetInstance();
     }
 
     private void OnAttackCollider(Node2D body)
@@ -40,19 +45,22 @@ public partial class MyhaAttack : Node
 
     public override void _Process(double delta)
     {
+        var (activePlayer, _) = GameInstance.GetActiveAndInactivePlayer();
+
+        if (IsNotCurrentCharacter(activePlayer)) return;
+
         if (Input.IsActionJustPressed(EnumInputs.FirstPlayerAttack.ToString()) && !isAttacking)
         {
-            sprite2D.Play(EnumAnimationName.MyhaThrowsSomething.ToString());
-            throwCollider.Monitoring = true;
-            throwCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = false;
-           
+            AnimatedSprite2D.Play(EnumAnimationName.MyhaThrowsSomething.ToString());
+            ThrowCollider.Monitoring = true;
+            ThrowCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = false;
         }
 
         if (Input.IsActionPressed(EnumInputs.SecondPlayerAttack.ToString()) && !isAttacking)
         {
-            sprite2D.Play(EnumAnimationName.MyhaThrowsSomething.ToString());
-            throwCollider.Monitoring = true;
-            throwCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = false;
+            AnimatedSprite2D.Play(EnumAnimationName.MyhaThrowsSomething.ToString());
+            ThrowCollider.Monitoring = true;
+            ThrowCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = false;
 
             forceAttackThrow += (int)forceDirection * (float)(100 * delta);
             forceAttackThrow = Mathf.Clamp(forceAttackThrow, 0, MAX_FORCE_ATTACK_THROW);
@@ -71,15 +79,19 @@ public partial class MyhaAttack : Node
         }
     }
 
+    private static bool IsNotCurrentCharacter(PlayerConfig activePlayer)
+    {
+        return activePlayer.EnumCharacter != currentCharacter;
+    }
 
     private void OnAnimationFinished()
     {
 
-        if (sprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString() || sprite2D.Animation == EnumAnimationName.MyhaThrowsSomething.ToString())
+        if (AnimatedSprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString() || AnimatedSprite2D.Animation == EnumAnimationName.MyhaThrowsSomething.ToString())
         {
-            sprite2D.Play(EnumAnimationName.Idle.ToString());
-            throwCollider.Monitoring = false;
-            throwCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = true;
+            AnimatedSprite2D.Play(EnumAnimationName.Idle.ToString());
+            ThrowCollider.Monitoring = false;
+            ThrowCollider.GetNode<CollisionShape2D>("throwableItemCollider").Disabled = true;
         }
 
     }

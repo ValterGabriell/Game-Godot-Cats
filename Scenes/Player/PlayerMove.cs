@@ -13,92 +13,102 @@ public partial class PlayerMove : CharacterBody2D
     public float Gravity = 2700;
 
     [Export]
-    public AnimatedSprite2D sprite2D { get; set; }
+    public AnimatedSprite2D AnimatedSprite2D { get; set; }
 
+    [Export]
+    public PlayerConfig PlayerConfig { get; set; }
 
-    public override void _Process(double delta)
+    private GameManager GameInstance;
+
+    public override void _Ready()
     {
-        var instance = GameManager.GetInstance();
+        GameInstance = GameManager.GetInstance();
+    }
 
-        var (activePlayer, _) = instance.GetActiveAndInactivePlayer();
+    public override void _PhysicsProcess(double delta)
+    {
+
+        var (activePlayer, _) = GameInstance.GetActiveAndInactivePlayer();
+
         if (activePlayer == null) return;
 
-        if (activePlayer.PlayerState == PlayerState.Dead)
+        if (IsNotActivePlayer(activePlayer))
+            return;
+
+        if (IsPerformingAttack())
+            return; // Skip movement processing during attack animation
+
+        if (IsActivePlayerDead(activePlayer))
+            ResetPlayerOnDeath(activePlayer);
+
+
+        Vector2 velocity = Velocity;
+
+        activePlayer?.UpdateCurrentPlayerPosition(this.Position);
+
+        HandleMovement(delta, velocity);
+    }
+
+    private bool IsNotActivePlayer(PlayerConfig activePlayer)
+    {
+       
+        return PlayerConfig.EnumCharacter != activePlayer.EnumCharacter;
+    }
+
+    private void HandleMovement(double delta, Vector2 velocity)
+    {
+        // Aplicar gravidade
+        if (!IsOnFloor())
+            velocity.Y += Gravity * (float)delta;
+
+
+        // Controle de pulo (apenas para player ativo)
+        if (Input.IsActionJustPressed("ui_accept") || Input.IsKeyPressed(Key.Space))
         {
-            activePlayer.PlayerState = PlayerState.Idle; // Reset state
-            this.Position = activePlayer.LastPlayerPosition;
+            if (IsOnFloor())
+            {
+                velocity.Y = JumpVelocity;
+            }
         }
 
-      
-    }
-    
+        // Movimento horizontal (apenas para player ativo)
+        Vector2 direction = Vector2.Zero;
 
- public override void _PhysicsProcess(double delta)
-{
-    if (sprite2D != null && sprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString())
-    {
-        return; // Skip movement processing during attack animation
-    }
-    Vector2 velocity = Velocity;
+        if (Input.IsActionPressed("ui_left") || Input.IsKeyPressed(Key.A))
+            direction.X -= 1;
+        if (Input.IsActionPressed("ui_right") || Input.IsKeyPressed(Key.D))
+            direction.X += 1;
 
-    var instance = GameManager.GetInstance();
-    var (activePlayer, _) = instance.GetActiveAndInactivePlayer();
+        // Aplicar movimento horizontal
+        if (direction != Vector2.Zero)
+        {
+            velocity.X = direction.X * Speed;
+        }
+        else
+        {
+            velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+        }
 
-    var cameraHandle = GetNode<CameraHandle>("CameraHandle");
-    bool isThisPlayerActive = cameraHandle != null && cameraHandle.ActivePlayer == activePlayer;
-    if(activePlayer != null)
-    {
-        activePlayer.UpdateCurrentPlayerPosition(this.Position);
-    }
-   
-
-
-    // Se não for o player ativo, apenas aplicar gravidade e retornar
-    if (!isThisPlayerActive && !IsOnFloor())
-    {
-        velocity.Y += Gravity * (float)delta;
         Velocity = velocity;
         MoveAndSlide();
-        return;
     }
 
-    // Aplicar gravidade
-    if (!IsOnFloor())
+    private void ResetPlayerOnDeath(PlayerConfig activePlayer)
     {
-        velocity.Y += Gravity * (float)delta;
+        activePlayer.PlayerState = PlayerState.Idle; // Reset state
+        this.Position = activePlayer.LastPlayerPosition;
     }
 
-    // Controle de pulo (apenas para player ativo)
-    if (Input.IsActionJustPressed("ui_accept") || Input.IsKeyPressed(Key.Space))
+    private static bool IsActivePlayerDead(PlayerConfig activePlayer)
     {
-        if (IsOnFloor())
-        {
-            velocity.Y = JumpVelocity;
-        }
+        return activePlayer.PlayerState == PlayerState.Dead;
     }
 
-    // Movimento horizontal (apenas para player ativo)
-    Vector2 direction = Vector2.Zero;
-
-    if (Input.IsActionPressed("ui_left") || Input.IsKeyPressed(Key.A))
-        direction.X -= 1;
-    if (Input.IsActionPressed("ui_right") || Input.IsKeyPressed(Key.D))
-        direction.X += 1;
-
-    // Aplicar movimento horizontal
-    if (direction != Vector2.Zero)
+    private bool IsPerformingAttack()
     {
-        velocity.X = direction.X * Speed;
-    }
-    else
-    {
-        velocity.X = Mathf.MoveToward(Velocity.X, 0, Speed);
+        return AnimatedSprite2D != null && AnimatedSprite2D.Animation == EnumAnimationName.KatrinaAttackHead.ToString();
     }
 
-    Velocity = velocity;
-    MoveAndSlide();
-}
-    
-     // Métodos para ativar/desativar este jogador
- 
+
+
 }

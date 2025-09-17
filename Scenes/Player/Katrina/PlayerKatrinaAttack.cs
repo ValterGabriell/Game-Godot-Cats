@@ -23,12 +23,13 @@ public partial class PlayerKatrinaAttack : Node
     private KatrinaAttackStrategy headAttackStrategy;
     private KatrinaAttackStrategy raboAttackStrategy;
     private KatrinaAttackStrategy tapaAttackStrategy;
-
+    private GameManager GameInstance;
 
     public override void _Ready()
     {
         playerToMoveWhenAttack = GetParent().GetParent<CharacterBody2D>();
         sprite2D.AnimationFinished += OnAnimationFinished;
+        GameInstance = GameManager.GetInstance();
 
         headAttackStrategy = new KatrinaAttackStrategy(new KatrinaCabecadaAttack());
         raboAttackStrategy = new KatrinaAttackStrategy(new KatrinaRabadaAttack());
@@ -37,6 +38,9 @@ public partial class PlayerKatrinaAttack : Node
 
     public override void _Process(double delta)
     {
+        var (activePlayer, _) = GameInstance.GetActiveAndInactivePlayer();
+       
+        if (!activePlayer.IsActivePlayer) return;
         if (Input.IsActionJustPressed(EnumInputs.FirstPlayerAttack.ToString()) && !isAttacking)
         {
             headAttackStrategy.ExecuteAttack((float)delta, sprite2D, playerToMoveWhenAttack, headCollider);
