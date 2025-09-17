@@ -1,7 +1,7 @@
 using Godot;
 using System;
 
-public partial class EnemieTeste : RigidBody2D
+public partial class EnemieTeste : Node
 {
     private int health = 40;
     public void ReceiveDamage(float damage)

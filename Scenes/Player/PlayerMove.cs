@@ -42,18 +42,21 @@ public partial class PlayerMove : CharacterBody2D
     Vector2 velocity = Velocity;
 
     var instance = GameManager.GetInstance();
-    var (activePlayer, inactivePlayer) = instance.GetActiveAndInactivePlayer();
+    var (activePlayer, _) = instance.GetActiveAndInactivePlayer();
 
     var cameraHandle = GetNode<CameraHandle>("CameraHandle");
     bool isThisPlayerActive = cameraHandle != null && cameraHandle.ActivePlayer == activePlayer;
+    if(activePlayer != null)
+    {
+        activePlayer.UpdateCurrentPlayerPosition(this.Position);
+    }
+   
+
 
     // Se não for o player ativo, apenas aplicar gravidade e retornar
-    if (!isThisPlayerActive)
+    if (!isThisPlayerActive && !IsOnFloor())
     {
-        if (!IsOnFloor())
-        {
-            velocity.Y += Gravity * (float)delta;
-        }
+        velocity.Y += Gravity * (float)delta;
         Velocity = velocity;
         MoveAndSlide();
         return;

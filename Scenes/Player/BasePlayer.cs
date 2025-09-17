@@ -1,4 +1,5 @@
 using Godot;
+using NovoProjetodeJogo.Scenes.Utils;
 using System;
 
 public enum PlayerState
@@ -10,18 +11,15 @@ public enum PlayerState
     Dead
 }
 
-public enum CharacterCurrent
-{
-    Katrina,
-    Myha
-}
+
 
 public partial class BasePlayer : Node
 {
 
-    public CharacterCurrent CurrentCharacter { get; set; } = CharacterCurrent.Katrina;
+    public EnumCharacter CurrentCharacter { get; set; } = EnumCharacter.Katrina;
     public PlayerState PlayerState { get; set; }
     public Vector2 LastPlayerPosition { get; set; }
+    private Vector2 CurrentPlayerPosition { get; set; }
     public bool IsActivePlayer { get; set; } = false;
 
     public BasePlayer()
@@ -30,20 +28,20 @@ public partial class BasePlayer : Node
 
 
 
-    public BasePlayer(PlayerState playerState, Vector2 lastPlayerPosition, CharacterCurrent characterCurrent)
+    public BasePlayer(PlayerState playerState, Vector2 lastPlayerPosition, EnumCharacter EnumCharacter)
     {
         PlayerState = playerState;
         LastPlayerPosition = lastPlayerPosition;
         IsActivePlayer = true;
-        CurrentCharacter = characterCurrent;
+        CurrentCharacter = EnumCharacter;
     }
 
-        public BasePlayer(PlayerState playerState, Vector2 lastPlayerPosition, CharacterCurrent characterCurrent, bool isActivePlayer)
+        public BasePlayer(PlayerState playerState, Vector2 lastPlayerPosition, EnumCharacter EnumCharacter, bool isActivePlayer)
     {
         PlayerState = playerState;
         LastPlayerPosition = lastPlayerPosition;
         IsActivePlayer = isActivePlayer;
-        CurrentCharacter = characterCurrent;
+        CurrentCharacter = EnumCharacter;
     }
 
     public void NullPlayer()
@@ -57,4 +55,16 @@ public partial class BasePlayer : Node
     {
         IsActivePlayer = active;
     }
+
+    public void UpdateCurrentPlayerPosition(Vector2 position)
+    {
+        this.CurrentPlayerPosition = position;
+    }
+
+    public Vector2 GetCurrentPosition()
+    {
+        return this.CurrentPlayerPosition;
+    }
+
+    
 }

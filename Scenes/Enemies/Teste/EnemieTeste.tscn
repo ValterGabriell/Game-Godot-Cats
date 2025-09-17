@@ -1,7 +1,8 @@
-[gd_scene load_steps=13 format=3 uid="uid://sjh5x2uelsr0"]
+[gd_scene load_steps=14 format=3 uid="uid://sjh5x2uelsr0"]
 
 [ext_resource type="Script" uid="uid://bm17sdtke337" path="res://Scenes/Enemies/Teste/EnemieTeste.cs" id="1_j1j3u"]
 [ext_resource type="Texture2D" uid="uid://bn7isk13abe5w" path="res://Assets/Inimigos/Rato/Rato-LB-01.png" id="2_j1j3u"]
+[ext_resource type="Script" uid="uid://nhmkntumo5op" path="res://Scenes/Enemies/Teste/EnemyRatMovement.cs" id="3_xj8b8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xj8b8"]
 atlas = ExtResource("2_j1j3u")
@@ -70,9 +71,14 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jxknc"]
 size = Vector2(43.5, 31.5)
 
-[node name="Area2D" type="RigidBody2D" groups=["Enemy"]]
+[node name="Body" type="CharacterBody2D" node_paths=PackedStringArray("Agent") groups=["Enemy"]]
 collision_layer = 32
 collision_mask = 147
+script = ExtResource("3_xj8b8")
+SPEED = 500
+Agent = NodePath("NavAgent")
+
+[node name="ReceiveDagame" type="Node" parent="."]
 script = ExtResource("1_j1j3u")
 
 [node name="AnimamedSprite2D" type="AnimatedSprite2D" parent="."]
@@ -87,3 +93,12 @@ frame_progress = 0.866901
 position = Vector2(-2, 7)
 shape = SubResource("RectangleShape2D_jxknc")
 debug_color = Color(0.796078, 0.0431373, 0.117647, 0.419608)
+
+[node name="NavAgent" type="NavigationAgent2D" parent="."]
+debug_enabled = true
+
+[node name="NavTimer" type="Timer" parent="."]
+wait_time = 0.1
+autostart = true
+
+[connection signal="timeout" from="NavTimer" to="." method="OnNavTimer_timeout"]

@@ -1,4 +1,5 @@
 using Godot;
+using NovoProjetodeJogo.Scenes.Utils;
 using System;
 
 public partial class PlayerConfig : Node2D
@@ -7,12 +8,10 @@ public partial class PlayerConfig : Node2D
     public bool IsActivePlayer { get; set; } = false;
 
     [Export]
-    public CharacterCurrent CharacterCurrent { get; set; }
+    public EnumCharacter EnumCharacter { get; set; }
 
     [Export]
     public Camera2D PlayerCamera { get; set; }
-
-
 
     private CharacterBody2D characterBody2D;
 
@@ -27,7 +26,7 @@ public partial class PlayerConfig : Node2D
     private void ConfigurePlayer()
     {       
              var instance = GameManager.GetInstance();
-             var player = new BasePlayer(PlayerState.Idle, this.Position, CharacterCurrent, isActivePlayer: IsActivePlayer);
+             var player = new BasePlayer(PlayerState.Idle, this.Position, EnumCharacter, isActivePlayer: IsActivePlayer);
               instance.SetActivePlayer(player);
 
 

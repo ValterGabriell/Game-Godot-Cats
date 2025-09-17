@@ -82,7 +82,7 @@ public partial class PlayerKatrinaAttack : Node
         {
             Logger.LogMessage("Enemy hit!");
             // Chame o método ReceiveDamage no inimigo
-            var enemy = area as EnemieTeste;
+            var enemy = area.GetNode("ReceiveDagame") as EnemieTeste;
             enemy?.ReceiveDamage(damage);
         }
     }

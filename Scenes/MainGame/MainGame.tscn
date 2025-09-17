@@ -19,7 +19,7 @@ Para Atacar - NumPad 5"
 [node name="Players" type="Node" parent="."]
 
 [node name="CatMyha" parent="Players" instance=ExtResource("1_adqn2")]
-position = Vector2(1782, 311)
+position = Vector2(127, -64)
 IsActivePlayer = true
 
 [node name="Managers" type="Node" parent="."]

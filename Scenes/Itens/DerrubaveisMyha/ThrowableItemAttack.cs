@@ -11,8 +11,8 @@ public partial class ThrowableItemAttack : RigidBody2D
         {
             Logger.LogMessage("Enemy hit!");
             // Chame o método ReceiveDamage no inimigo
-            var enemy = body as EnemieTeste;
-            enemy?.KillEnemy();
+            var enemy = body.GetNode("ReceiveDagame") as EnemieTeste;
+            enemy?.ReceiveDamage(30);
         }
     }
 }
