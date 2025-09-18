@@ -41,5 +41,6 @@ public static class Logger
 
         GD.PrintRich($"{origin}{formattedMsg}");
     }
+
 }
 

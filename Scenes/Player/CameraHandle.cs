@@ -1,6 +1,6 @@
 using Godot;
 using System;
-using static PlayerConfig;
+
 
 public partial class CameraHandle : Node2D
 {

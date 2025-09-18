@@ -59,6 +59,7 @@ ThirdPlayerAttack={
 2d_physics/layer_7="rabo_attack_area"
 2d_physics/layer_8="throwable_myha_item"
 2d_physics/layer_9="attack_throwable_myha_area"
+2d_physics/layer_10="enemie_rat_attack_area"
 
 [rendering]
 

@@ -1,7 +1,8 @@
-[gd_scene load_steps=14 format=3 uid="uid://sjh5x2uelsr0"]
+[gd_scene load_steps=15 format=3 uid="uid://sjh5x2uelsr0"]
 
 [ext_resource type="Script" uid="uid://bm17sdtke337" path="res://Scenes/Enemies/Teste/EnemieTeste.cs" id="1_j1j3u"]
 [ext_resource type="Texture2D" uid="uid://bn7isk13abe5w" path="res://Assets/Inimigos/Rato/Rato-LB-01.png" id="2_j1j3u"]
+[ext_resource type="Script" uid="uid://fqho52b5u3nw" path="res://Scenes/Enemies/Teste/EnemyRatAttack.cs" id="3_gvjuq"]
 [ext_resource type="Script" uid="uid://nhmkntumo5op" path="res://Scenes/Enemies/Teste/EnemyRatMovement.cs" id="3_xj8b8"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_xj8b8"]
@@ -71,17 +72,23 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jxknc"]
 size = Vector2(43.5, 31.5)
 
-[node name="Body" type="CharacterBody2D" node_paths=PackedStringArray("Agent", "RayCast", "Timer", "PositionsToPatrol") groups=["Enemy"]]
+[node name="Body" type="CharacterBody2D" node_paths=PackedStringArray("Agent", "RayCast", "AttackRayCastToFlip", "Timer", "PositionsToPatrol", "AnimatedSprite2D") groups=["Enemy"]]
 collision_layer = 32
 collision_mask = 147
 script = ExtResource("3_xj8b8")
 Agent = NodePath("NavAgent")
 RayCast = NodePath("AnimamedSprite2D/RayCast2D")
+AttackRayCastToFlip = NodePath("AnimamedSprite2D/RayCastAttack")
 Timer = NodePath("NavTimer")
 PositionsToPatrol = []
+AnimatedSprite2D = NodePath("AnimamedSprite2D")
 
 [node name="ReceiveDagame" type="Node" parent="."]
 script = ExtResource("1_j1j3u")
+
+[node name="EnemyRatAttack" type="Node" parent="." node_paths=PackedStringArray("RaycastAttackEnemy")]
+script = ExtResource("3_gvjuq")
+RaycastAttackEnemy = NodePath("../AnimamedSprite2D/RayCastAttack")
 
 [node name="AnimamedSprite2D" type="AnimatedSprite2D" parent="."]
 texture_filter = 1
@@ -92,18 +99,23 @@ autoplay = "EnemyRatWalk"
 frame_progress = 0.866901
 
 [node name="RayCast2D" type="RayCast2D" parent="AnimamedSprite2D"]
-target_position = Vector2(-125, 0)
+target_position = Vector2(125, 0)
+collision_mask = 2
+
+[node name="RayCastAttack" type="RayCast2D" parent="AnimamedSprite2D"]
+target_position = Vector2(100, 0)
+collision_mask = 2
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="."]
 position = Vector2(-2, 7)
 shape = SubResource("RectangleShape2D_jxknc")
-debug_color = Color(0.796078, 0.0431373, 0.117647, 0.419608)
+debug_color = Color(0.5110082, 0.40755492, 0.2375434, 0.41960785)
 
 [node name="NavAgent" type="NavigationAgent2D" parent="."]
 debug_enabled = true
 
 [node name="NavTimer" type="Timer" parent="."]
-wait_time = 0.1
-autostart = true
+wait_time = 2.0
+one_shot = true
 
 [connection signal="timeout" from="NavTimer" to="." method="OnNavTimer_timeout"]

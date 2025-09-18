@@ -1,4 +1,5 @@
 using Godot;
+using NovoProjetodeJogo.Scenes.Utils;
 using System;
 using System.ComponentModel.DataAnnotations.Schema;
 
@@ -24,6 +25,7 @@ public partial class PlayerKatrinaAttack : Node
     private KatrinaAttackStrategy raboAttackStrategy;
     private KatrinaAttackStrategy tapaAttackStrategy;
     private GameManager GameInstance;
+    private const EnumCharacter currentCharacter = EnumCharacter.Katrina;
 
     public override void _Ready()
     {
@@ -39,8 +41,10 @@ public partial class PlayerKatrinaAttack : Node
     public override void _Process(double delta)
     {
         var (activePlayer, _) = GameInstance.GetActiveAndInactivePlayer();
-       
-        if (!activePlayer.IsActivePlayer) return;
+
+        if (PlayerUtils.IsNotActivePlayer(activePlayer.EnumCharacter, currentCharacter))
+            return;
+
         if (Input.IsActionJustPressed(EnumInputs.FirstPlayerAttack.ToString()) && !isAttacking)
         {
             headAttackStrategy.ExecuteAttack((float)delta, sprite2D, playerToMoveWhenAttack, headCollider);

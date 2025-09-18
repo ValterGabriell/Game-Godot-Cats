@@ -22,18 +22,18 @@ Para Atacar - NumPad 5"
 [node name="Players" type="Node" parent="."]
 
 [node name="CatKatrina" parent="Players" node_paths=PackedStringArray("CameraHandle") instance=ExtResource("2_adqn2")]
-position = Vector2(103, -89)
+position = Vector2(-74, -71)
 CameraHandle = NodePath("../../Camera")
 
 [node name="CatMyha" parent="Players" node_paths=PackedStringArray("CameraHandle") instance=ExtResource("1_adqn2")]
-position = Vector2(-2, -101)
+position = Vector2(163, -158)
 CameraHandle = NodePath("../../Camera")
 
 [node name="Managers" type="Node" parent="."]
 script = ExtResource("5_adqn2")
 
 [node name="Phase01" parent="." instance=ExtResource("2_yad00")]
-position = Vector2(-73, -56)
+position = Vector2(-69, -48)
 
 [node name="DeathArea" parent="." instance=ExtResource("5_a8if6")]
 position = Vector2(3728, 1617)

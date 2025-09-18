@@ -1,86 +1,84 @@
 using Godot;
+using NovoProjetodeJogo.Scenes.Utils;
 using System;
-using System.ComponentModel;
-using System.Linq;
 
+namespace NovoProjetodeJogo.Scenes.Enemies.Teste;
 public partial class EnemyRatMovement : CharacterBody2D
 {
-    private enum State
-    {
-        Idle,
-        Chasing,
-        Attacking,
-        Returning
-    }
-
-
-    [Export]
-    public int SPEED { get; set; } = 500;
-
-    [Export]
-    private NavigationAgent2D Agent { get; set; }
-
-    [Export]
-    private RayCast2D RayCast { get; set; }
-
-    [Export]
-    private Timer Timer { get; set; }
-
-    private GameManager GameManagerInstance { get; set; }
-
-    private State CurrentState { get; set; } = State.Idle;
-
-    [Export]
-    private Marker2D[] PositionsToPatrol { get; set; } = [];
-
-    private Marker2D CurrentPatrolPosition { get; set; }
-
+   
     public override void _Ready()
     {
-        GameManagerInstance = GameManager.GetInstance();
         if (PositionsToPatrol.Length > 0)
-            CurrentPatrolPosition = PositionsToPatrol[0];
+            CurrentPatrolPositionMarker = PositionsToPatrol[0];
+
+        GameInstance = GameManager.GetInstance();
     }
 
     public override void _PhysicsProcess(double delta)
     {
-        if (this.GlobalPosition.DistanceTo(CurrentPatrolPosition.Position) < 10)
-            GetNextPosition();
-
-        if(CurrentState == State.Idle || CurrentState == State.Returning)
+        if (IsPatrollingOrReturning())
         {
-            Vector2 direction = (CurrentPatrolPosition.Position - this.GlobalPosition);
-            Velocity = direction * SPEED * (float) delta;
+            if (IsNearPatrolPoint())
+                GetNextPosition();
+
+            Vector2 direction = (CurrentPatrolPositionMarker.Position - GlobalPosition).Normalized();
+            direction = RestrictDirectionToHorizontal(direction);
+
+            Velocity = direction * PatrolSpeed;
+
+            PlayerUtils.FlipSprite(direction.X, this.AnimatedSprite2D, this.RayCast, this.AttackRayCastToFlip);
         }
 
+        if (RayCast.IsColliding())
+            StartChasing();
 
-        if (RayCast.IsColliding() && RayCast.GetCollider() is BasePlayer player && this.CurrentState != State.Chasing)
-            ChasePlayer();
-        else if (!RayCast.IsColliding() && this.CurrentState == State.Chasing)
-            StopChase();
+
+        if (CurrentState == State.Chasing)
+            UpdateChaseMovement((float) delta);
+
 
         MoveAndSlide();
     }
 
+    private bool IsNearPatrolPoint()
+    {
+        return GlobalPosition.DistanceTo(CurrentPatrolPositionMarker.Position) < 75f;
+    }
+
+    private bool IsPatrollingOrReturning()
+    {
+        return CurrentState == State.Patrolling || CurrentState == State.Returning;
+    }
+
+    private void UpdateChaseMovement(float delta)
+    {
+        Vector2 playerPos = GameInstance.GetCurrentActivePlayerPosistion();
+        Vector2 direction = (playerPos - GlobalPosition).Normalized(); // Normaliza para manter velocidade constante
+        direction = RestrictDirectionToHorizontal(direction);
+        Velocity = direction * ChaseSpeed; // Não multiplica por delta
+    }
+
+    private static Vector2 RestrictDirectionToHorizontal(Vector2 direction)
+    {
+        direction.Y = 0; // Impede movimento no eixo Y
+        return direction;
+    }
+
+    private void StartChasing()
+    {
+        CurrentState = State.Chasing;
+        Timer.Start();
+    }
+
     private void GetNextPosition()
     {
-        CurrentPatrolPosition = PositionsToPatrol[(Array.IndexOf(PositionsToPatrol, CurrentPatrolPosition) + 1) % PositionsToPatrol.Length];
+        int idx = Array.IndexOf(PositionsToPatrol, CurrentPatrolPositionMarker);
+        idx = (idx + 1) % PositionsToPatrol.Length;
+        CurrentPatrolPositionMarker = PositionsToPatrol[idx];
     }
 
-    private void StopChase()
-    {
-        this.CurrentState = State.Returning;
-    }
-
-    private void ChasePlayer()
-    {
-        this.CurrentState = State.Chasing;
-        SPEED = 250;
-    }
-
-  
     public void OnNavTimer_timeout()
     {
-        
+        CurrentState = State.Returning;
     }
 }

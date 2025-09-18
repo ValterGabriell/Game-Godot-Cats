@@ -3,6 +3,8 @@ using NovoProjetodeJogo.Scenes.Utils;
 using System;
 using System.Linq;
 
+
+
 public partial class PlayerConfig : Node2D
 {
     [Export]
@@ -53,7 +55,6 @@ public partial class PlayerConfig : Node2D
             }
         }
     }
-
 
     public void UpdateCurrentPlayerPosition(Vector2 position)
     {

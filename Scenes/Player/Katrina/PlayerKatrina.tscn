@@ -1,7 +1,7 @@
 [gd_scene load_steps=32 format=3 uid="uid://c7i56odqqtay0"]
 
-[ext_resource type="Script" uid="uid://4wybkbpiv1" path="res://Scenes/Player/PlayerConfig.cs" id="1_bwq2o"]
-[ext_resource type="Script" uid="uid://c6sgdy2684jww" path="res://Scenes/Player/PlayerMove.cs" id="1_j51jf"]
+[ext_resource type="Script" uid="uid://c5ytphmm25wqo" path="res://Scenes/Player/PlayerConfig.cs" id="1_bwq2o"]
+[ext_resource type="Script" uid="uid://cnbueuxuftnj7" path="res://Scenes/Player/PlayerCharacterBody.cs" id="2_6b4ix"]
 [ext_resource type="Texture2D" uid="uid://cdrgyasuuh0d3" path="res://Assets/Katrina/ATACK/HEAD/Katrina-LB-AtaqueCabecada-Sheet.png" id="3_01d60"]
 [ext_resource type="Script" uid="uid://wanqqphh3a2f" path="res://Scenes/Player/Katrina/PlayerKatrinaAttack.cs" id="3_6owsu"]
 [ext_resource type="Texture2D" uid="uid://ds15w03gm6754" path="res://Assets/Katrina/IDLE/Katrina-Idle-02.png" id="3_w6x15"]
@@ -173,8 +173,8 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CircleShape2D" id="CircleShape2D_01wa6"]
-radius = 19.845
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4ix"]
+size = Vector2(4.1039433, 61.155113)
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_w6x15"]
 radius = 26.0768
@@ -182,16 +182,14 @@ radius = 26.0768
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w6x15"]
 size = Vector2(8, 30.5)
 
-[node name="CatKatrina" type="Node2D" node_paths=PackedStringArray("PlayerCamera", "CameraHandle") groups=["PlayerConfigs"]]
+[node name="CatKatrina" type="Node2D" groups=["PlayerConfigs"]]
 script = ExtResource("1_bwq2o")
 IsActivePlayer = true
-PlayerCamera = NodePath("")
-CameraHandle = NodePath("")
 
 [node name="CharacterBody2D" type="CharacterBody2D" parent="." node_paths=PackedStringArray("AnimatedSprite2D", "PlayerConfig")]
 collision_layer = 2
-collision_mask = 13
-script = ExtResource("1_j51jf")
+collision_mask = 525
+script = ExtResource("2_6b4ix")
 AnimatedSprite2D = NodePath("AnimatedSprite")
 PlayerConfig = NodePath("..")
 
@@ -258,9 +256,9 @@ animation = &"KatrinaAttackHead"
 autoplay = "Idle"
 
 [node name="CollisionBody" type="CollisionShape2D" parent="CharacterBody2D"]
-position = Vector2(0, 7)
+position = Vector2(1, -1.9999998)
 scale = Vector2(1.674, 0.606)
-shape = SubResource("CircleShape2D_01wa6")
+shape = SubResource("RectangleShape2D_6b4ix")
 
 [node name="AreaCollisionHead" type="Area2D" parent="CharacterBody2D"]
 collision_layer = 16
@@ -268,7 +266,7 @@ collision_mask = 32
 monitoring = false
 
 [node name="CollisionHead" type="CollisionShape2D" parent="CharacterBody2D/AreaCollisionHead"]
-position = Vector2(35, -20)
+position = Vector2(31, -22)
 shape = SubResource("CircleShape2D_w6x15")
 disabled = true
 debug_color = Color(0.590966, 0, 0.0573893, 0.42)

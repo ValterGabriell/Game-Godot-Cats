@@ -8,8 +8,6 @@ public partial class GameManager : Node
     private PlayerConfig currentInactivePlayer;
     private static GameManager Instance;
     public int CurrentPhase { get; set; } = 1;
-    [Signal]
-    public delegate void ActivePlayerSwitchedEventHandler(PlayerConfig newActivePlayer);
 
     public override void _Ready()
     {
@@ -21,6 +19,11 @@ public partial class GameManager : Node
     public static GameManager GetInstance()
     {
         return Instance;
+    }
+
+    public Vector2 GetCurrentActivePlayerPosistion()
+    {
+        return currentActivePlayer?.CurrentPlayerPosition ?? Vector2.Zero;
     }
 
     public void SetActiveAndInactivePlayers()

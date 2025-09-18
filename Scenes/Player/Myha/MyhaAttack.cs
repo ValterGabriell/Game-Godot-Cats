@@ -2,6 +2,7 @@ using Godot;
 using NovoProjetodeJogo.Scenes.Utils;
 using System;
 
+
 enum EnumForceDirection
 {
     Increase = 1,
@@ -47,7 +48,8 @@ public partial class MyhaAttack : Node
     {
         var (activePlayer, _) = GameInstance.GetActiveAndInactivePlayer();
 
-        if (IsNotCurrentCharacter(activePlayer)) return;
+        if (PlayerUtils.IsNotActivePlayer(activePlayer.EnumCharacter, currentCharacter))
+            return;
 
         if (Input.IsActionJustPressed(EnumInputs.FirstPlayerAttack.ToString()) && !isAttacking)
         {

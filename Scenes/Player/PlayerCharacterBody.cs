@@ -1,7 +1,11 @@
 using Godot;
+using NovoProjetodeJogo.Scenes.Utils;
 using System;
 
-public partial class PlayerMove : CharacterBody2D
+
+namespace NovoProjetodeJogo.Scenes.Player.PlayerCharacterBody;
+
+public partial class PlayerCharacterBody : CharacterBody2D
 {
     [Export]
     public float Speed = 650.0f;
@@ -32,7 +36,7 @@ public partial class PlayerMove : CharacterBody2D
 
         if (activePlayer == null) return;
 
-        if (IsNotActivePlayer(activePlayer))
+        if (PlayerUtils.IsNotActivePlayer(activePlayer.EnumCharacter, PlayerConfig.EnumCharacter))
             return;
 
         if (IsPerformingAttack())
@@ -47,12 +51,6 @@ public partial class PlayerMove : CharacterBody2D
         activePlayer?.UpdateCurrentPlayerPosition(this.Position);
 
         HandleMovement(delta, velocity);
-    }
-
-    private bool IsNotActivePlayer(PlayerConfig activePlayer)
-    {
-       
-        return PlayerConfig.EnumCharacter != activePlayer.EnumCharacter;
     }
 
     private void HandleMovement(double delta, Vector2 velocity)

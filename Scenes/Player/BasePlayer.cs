@@ -13,6 +13,7 @@ public enum PlayerState
 
 
 
+[Obsolete("This class is obsolete")]
 public partial class BasePlayer : Node
 {
 
